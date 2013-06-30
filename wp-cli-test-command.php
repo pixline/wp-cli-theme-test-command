@@ -21,8 +21,8 @@ class Unit_Test_Cmd extends WP_CLI_Command{
         case 'theme' :
         default:
 
-          $silent = WP_CLI::get_config( 'quiet' ) ? '--silent ' : '';
-          $cmd = "curl -f $silent $download_url -o /tmp/theme-unit-test-data.xml";
+          #$silent = WP_CLI::get_config( 'quiet' ) ? '--silent ' : '';
+          $cmd = "curl -f --silent $download_url -o /tmp/theme-unit-test-data.xml";
           WP_CLI::launch( $cmd );
 
           # reset wp
