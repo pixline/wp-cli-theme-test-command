@@ -10,6 +10,7 @@ class Unit_Test_Cmd extends WP_CLI_Command{
     /**
      * Setup unit tests
      * 
+     * @when before_wp_load
      * @synopsis <target> [--data=<wxr_url>] [--reset=<bool>] [--url=<url>] [--title=<title>] [--admin_name=<username>] [--admin_email=<email>] [--admin_password=<password>]
      */
     public function setup( $args, $assoc_args ){
@@ -63,14 +64,6 @@ class Unit_Test_Cmd extends WP_CLI_Command{
           # todo: create short custom menu, 2/3 pages
         break;
       endswitch;
-    }
-
-    /**
-     * @alias run
-     * @synopsis <target> [--phpunit-flags]
-     */
-    public function _run(){
-      // run tests (core | plugin <slug> )
     }
 
 }
