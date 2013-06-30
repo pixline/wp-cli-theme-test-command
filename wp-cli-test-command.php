@@ -14,21 +14,22 @@ class Unit_Test_Cmd extends WP_CLI_Command{
      */
     public function setup( $args, $assoc_args ){
       list( $target ) = $args;
-      print_r( $assoc_args );
       $download_url = 'https://wpcom-themes.svn.automattic.com/demo/theme-unit-test-data.xml';
 
 
       switch ( $target ) :
         case 'theme' :
+        default:
+
           $silent = WP_CLI::get_config( 'quiet' ) ? '--silent ' : '';
           $cmd = "curl -f $silent $download_url -o /tmp/theme-unit-test-data.xml";
           WP_CLI::launch( $cmd );
 
           # reset wp
-          WP_CLI::launch( 'wp db reset --yes' );
+          #WP_CLI::launch( 'wp db reset --yes' );
 
           # install wp (install config file? args? both?)
-          WP_CLI::launch( 'wp core install --url=<$url> --title=<$title> --admin_name=<$admin> --admin_email=<$email> --admin_password=<$password>' );
+          #WP_CLI::launch( 'wp core install --url=<$url> --title=<$title> --admin_name=<$admin> --admin_email=<$email> --admin_password=<$password>' );
 
           # import xml
           WP_CLI::launch( 'wp import /tmp/theme-unit-test-data.xml --authors=skip' );
@@ -60,15 +61,12 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 
           # todo: create long custom menu, all pages
           # todo: create short custom menu, 2/3 pages
-        default:
-
         break;
       endswitch;
     }
 
     /**
      * @alias run
-     * @subcommand run
      * @synopsis <target> [--phpunit-flags]
      */
     public function _run(){
@@ -77,4 +75,4 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 
 }
 
-WP_CLI::add_command( 'unit-test', 'Unit_Test_Cmd' );
+WP_CLI::add_command( 'unittest', 'Unit_Test_Cmd' );
