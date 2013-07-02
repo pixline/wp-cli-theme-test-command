@@ -1,8 +1,10 @@
 <?php
 /**
- * Install and run WordPress unit-tests (core, plugin and themes)
+ * Install and run WordPress unit-tests
  *
  * @author pixline
+ * @when after_wp_load
+ * @synopsis <action>
  */
 
 class Unit_Test_Cmd extends WP_CLI_Command{
@@ -10,42 +12,72 @@ class Unit_Test_Cmd extends WP_CLI_Command{
     /**
      * Setup unit tests
      * 
-     * @when before_wp_load
-     * @synopsis <target> [--data=<wxr_url>] [--reset=<bool>] [--url=<url>] [--title=<title>] [--admin_name=<username>] [--admin_email=<email>] [--admin_password=<password>]
+     * @when after_wp_load
+     * @synopsis <target> [--data=<wxr>] [--reset] --url=<url> --title=<site-title> [--admin_name=<username>] --admin_email=<email> --admin_password=<password>
      */
-    public function setup( $args, $assoc_args ){
+    public function setup( $args, $assoc_args = array() ){
       list( $target ) = $args;
-      $download_url = 'https://wpcom-themes.svn.automattic.com/demo/theme-unit-test-data.xml';
 
+      # default download URL
+      $dataurl = 'https://wpcom-themes.svn.automattic.com/demo/theme-unit-test-data.xml';
+      $download_url = isset( $assoc_args['data'] ) ? $assoc_args['data'] : $dataurl;
 
       switch ( $target ) :
         case 'theme' :
-        default:
+        default: 
 
-          #$silent = WP_CLI::get_config( 'quiet' ) ? '--silent ' : '';
-          $cmd = "curl -f --silent $download_url -o /tmp/theme-unit-test-data.xml";
+          # WordPress reset/reinstall
+          if ( isset( $assoc_args['reset'] ) ):
+            $actual_URL = get_option( 'siteurl' );
+
+            # reset wp
+            WP_CLI::launch( 'wp db reset --yes' );
+
+            # install wp
+            WP_CLI::launch(
+                'wp core install '
+                .' --url='.$assoc_args['url']
+                .' --title='.$assoc_args['title']
+                .' --admin_name='.$assoc_args['admin_name']
+                .' --admin_email='.$assoc_args['admin_email']
+                .' --admin_password='.$assoc_args['admin_password']
+            );
+          endif;
+
+          # test data download
+          $silent = WP_CLI::get_config( 'quiet' ) ? '--silent ' : '';
+          $cmd = "curl -f $silent $download_url -o /tmp/theme-unit-test-data.xml";
           WP_CLI::launch( $cmd );
 
-          # reset wp
-          #WP_CLI::launch( 'wp db reset --yes' );
-
-          # install wp (install config file? args? both?)
-          #WP_CLI::launch( 'wp core install --url=<$url> --title=<$title> --admin_name=<$admin> --admin_email=<$email> --admin_password=<$password>' );
-
-          # import xml
+          # test data xml import
           WP_CLI::launch( 'wp import /tmp/theme-unit-test-data.xml --authors=skip' );
 
-          # install plugins
-          WP_CLI::launch( 'wp plugin install developer --activate' );
-          WP_CLI::launch( 'wp plugin install theme-check --activate' );
-          WP_CLI::launch( 'wp plugin install debug-bar --activate' );
-          WP_CLI::launch( 'wp plugin install log-deprecated-notices --activate' );
-          WP_CLI::launch( 'wp plugin install debogger --activate' );
-          WP_CLI::launch( 'wp plugin install monster-widget --activate' );
-          WP_CLI::launch( 'wp plugin install wordpress-beta-tester --activate' );
-          WP_CLI::launch( 'wp plugin install regenerate-thumbnails --activate' );
 
-          # options 
+          # plugins check, install, activation
+          $plugins = array(
+            'developer', 
+            'theme-check', 
+            'debug-bar', 
+            'log-deprecated-notices', 
+            'debogger', 
+            'monster-widget', 
+            'wordpress-beta-tester', 
+            'regenerate-thumbnails',
+            'zendesk',
+          );
+
+          foreach ( $plugins as $plugin ):
+            $res = WP_CLI::launch( 'wp plugin status '.$plugin, false );
+            if ( isset( $res) && $res === 1 ){
+              # install and activate plugin
+              WP_CLI::launch( 'wp plugin install '.$plugin.' --activate' );
+            } else {
+              # activate plugin
+              WP_CLI::launch( 'wp plugin activate '.$plugin );
+            }
+          endforeach;
+
+          # option update
           WP_CLI::launch( 'wp option update blogname "WordPress Theme Unit Test Site"' );
           WP_CLI::launch( 'wp option update posts_per_page 5' );
           WP_CLI::launch( 'wp option update thread_comments 1' );
