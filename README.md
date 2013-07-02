@@ -17,11 +17,11 @@ cd ~/.composer
 2) Add the repository containing the desired package:
 
 ```bash
-composer config repositories.stat vcs https://github.com/danielbachhuber/wp-cli-stat-command
+composer config repositories.stat vcs https://github.com/pixline/wp-cli-test-command
 ```
 
 3) Install the package:
 
 ```bash
-composer require danielbachhuber/wp-cli-stat-command=dev-master
+composer require pixline/wp-cli-test-command=dev-master
 ```
