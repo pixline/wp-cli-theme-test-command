@@ -33,7 +33,7 @@ cd ~/.composer
 2) Add the repository containing the desired package:
 
 ```bash
-composer config repositories.stat vcs https://github.com/pixline/wp-cli-test-command
+composer config repositories.unit_test vcs https://github.com/pixline/wp-cli-test-command
 ```
 
 3) Install the package:
