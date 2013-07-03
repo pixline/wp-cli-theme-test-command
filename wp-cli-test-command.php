@@ -10,7 +10,16 @@
 
 class Unit_Test_Cmd extends WP_CLI_Command{
 
-	function create_test_menus(){
+	/**
+	 * (optional) create custom menu, if required
+	 * 
+	 * At least two custom menus should be created in order to test a theme
+	 * The standard Theme data file now ships with optimal menus built-in
+	 * This function makes sense with custom WXR files only
+	 * 
+	 * @since 0.2
+	 */
+	private function create_test_menus(){
 		/*
 		* menus are already in the usual test WXR file
 		* todo: include as an option 
@@ -60,6 +69,11 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 		endforeach;
 	}
 
+	/**
+	 * Update blog options with optimal testing standards
+	 * 
+	 * @since 0.2
+	 */
 	private function update_test_options(){
 		WP_CLI::launch( 'wp option update blogname "WordPress Theme Unit Test Site"' );
 		WP_CLI::launch( 'wp option update posts_per_page 5' );
@@ -74,7 +88,11 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 		WP_CLI::launch( 'wp option update permalink_structure "/%year%/%monthnum%/%day%/%postname%/"' );
 	}
 
-
+	/**
+	 * Install or reset/reinstall WordPress 
+	 * 
+	 * @param array $assoc_args  Incoming args associative array
+	 */
 	private function maybe_reinstall( $assoc_args ){
 		# WordPress reset/reinstall
 		if ( isset( $assoc_args['reset'] ) ):
@@ -91,7 +109,7 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 			.' --admin_password='.$assoc_args['admin_password']
 			);
 		else :
-			WP_CLI::launch( 'wp core is_installed' );
+			WP_CLI::launch( 'wp core is-installed' );
 		endif;
 	}
 
@@ -103,6 +121,8 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	*/
 	public function setup( $args, $assoc_args = array() ){
 		list( $target ) = $args;
+
+		print_r( $args ); die();
 
 		# default download URL
 		$dataurl = 'https://wpcom-themes.svn.automattic.com/demo/theme-unit-test-data.xml';
