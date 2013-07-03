@@ -10,6 +10,7 @@ wp test setup theme [options]
 
 * ```[--data=<wxr>]``` custom WXR file location/URL
 * ```[--reset]``` reset WP database
+* ```[--menus]``` create custom menus with pages, if needed
 
 * ```--url=<url>``` if reset, WP install url
 * ```--title=<site-title>``` WP install title
