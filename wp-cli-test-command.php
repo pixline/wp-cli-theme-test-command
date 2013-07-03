@@ -44,26 +44,17 @@ class Unit_Test_Cmd extends WP_CLI_Command{
             );
           endif;
 
-          # test data download
-          $silent = WP_CLI::get_config( 'quiet' ) ? '--silent ' : '';
-          $cmd = "curl -f $silent $download_url -o /tmp/theme-unit-test-data.xml";
-          WP_CLI::launch( $cmd );
-
-          # test data xml import
-          WP_CLI::launch( 'wp import /tmp/theme-unit-test-data.xml --authors=skip' );
-
-
           # plugins check, install, activation
           $plugins = array(
-            'developer', 
-            'theme-check', 
-            'debug-bar', 
-            'log-deprecated-notices', 
             'debogger', 
+            'debug-bar', 
+            'developer', 
+            'log-deprecated-notices', 
             'monster-widget', 
-            'wordpress-beta-tester', 
             'regenerate-thumbnails',
-            'zendesk',
+            'theme-check', 
+            'wordpress-beta-tester', 
+            'wordpress-importer',
           );
 
           foreach ( $plugins as $plugin ):
@@ -76,6 +67,12 @@ class Unit_Test_Cmd extends WP_CLI_Command{
               WP_CLI::launch( 'wp plugin activate '.$plugin );
             }
           endforeach;
+
+          # test data download + import
+          $silent = WP_CLI::get_config( 'quiet' ) ? '--silent ' : '';
+          $cmd = "curl -f $silent $download_url -o /tmp/theme-unit-test-data.xml";
+          WP_CLI::launch( $cmd );
+          WP_CLI::launch( 'wp import /tmp/theme-unit-test-data.xml --authors=skip' );
 
           # option update
           WP_CLI::launch( 'wp option update blogname "WordPress Theme Unit Test Site"' );
