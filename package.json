@@ -1,6 +1,6 @@
 {
   "name": "wp-cli_test_command",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Install and run WordPress unit tests from wp-cli",
   "main": "Gruntfile.js",
   "directories": {

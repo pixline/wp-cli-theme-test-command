@@ -3,7 +3,7 @@
  * Install and run WordPress unit-tests
  *
  * @author pixline
- * @version 0.2.1
+ * @version 0.2.2
  * @when after_wp_load
  * @synopsis <action>
  */
@@ -177,6 +177,10 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 
 			case 'core':
 				WP_CLI::launch( 'wp core init-tests' );
+			break;
+
+			default:
+				WP_CLI::line( 'Usage: wp test setup [theme|plugin|core]' );
 			break;
 		endswitch;
 	}
