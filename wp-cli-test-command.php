@@ -11,20 +11,15 @@
 class Unit_Test_Cmd extends WP_CLI_Command{
 
 	/**
-	 * (optional) create custom menu, if required
+	 * create optional test nav menu
 	 * 
 	 * At least two custom menus should be created in order to test a theme
 	 * The standard Theme data file now ships with optimal menus built-in
-	 * This function makes sense with custom WXR files only
+	 * This method actually makes sense with custom WXR files only
 	 * 
 	 * @since 0.2
 	 */
 	private function create_test_menus(){
-		/*
-		* menus are already in the usual test WXR file
-		* todo: include as an option 
-		* (might be useful with custom WXR files)
-		*/
 		$pages = get_all_page_ids();
 		$items = array(); 
 		foreach ( $pages as $page_ID ):
@@ -114,61 +109,71 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	}
 
 	/**
-	* Setup unit tests
-	* 
-	* @when after_wp_load
-	* @synopsis <target> [--data=<wxr>] [--reset] --url=<url> --title=<site-title> [--admin_name=<username>] --admin_email=<email> --admin_password=<password>
-	*/
-	public function setup( $args, $assoc_args = array() ){
-		list( $target ) = $args;
+	 * Check plugin status, install and activate as needed
+	 */
+	private function manage_plugins(){
+		$plugins = array(
+			'debogger', 
+			'debug-bar', 
+			'developer', 
+			'log-deprecated-notices', 
+			'monster-widget', 
+			'regenerate-thumbnails',
+			'theme-check', 
+			'wordpress-beta-tester', 
+			'wordpress-importer',
+		);
 
-		print_r( $args ); die();
+		foreach ( $plugins as $plugin ):
+			$res = WP_CLI::launch( 'wp plugin status '.$plugin, false );
+		if ( isset( $res) && $res === 1 ){
+			# install and activate plugin
+			WP_CLI::launch( 'wp plugin install '.$plugin.' --activate' );
+		} else {
+			# activate plugin
+			WP_CLI::launch( 'wp plugin activate '.$plugin );
+		}
+		endforeach;
+	}
 
-		# default download URL
+	/**
+	 * Download and install theme unit test datafile
+	 * 
+	 * @param array $assoc_args  Incoming args associative array
+	 */
+	private function import_test_data( $assoc_args ){
 		$dataurl = 'https://wpcom-themes.svn.automattic.com/demo/theme-unit-test-data.xml';
 		$download_url = isset( $assoc_args['data'] ) ? $assoc_args['data'] : $dataurl;
+		$silent  = WP_CLI::get_config( 'quiet' ) ? '--silent ' : '';
+		$cmdline = "curl -f $silent $download_url -o /tmp/theme-unit-test-data.xml";
 
-		switch ( $target ) :   
-			case 'theme' :
-			default: 
+		WP_CLI::launch( $cmdline );
+		WP_CLI::launch( 'wp import /tmp/theme-unit-test-data.xml --authors=skip' );
+	}
 
-			$this->maybe_reinstall( $assoc_args );
+	/**
+	* Setup theme test options, data and plugins
+	* 
+	* @when after_wp_load
+	* @synopsis [--data=<wxr>] [--menus] [--reset] --url=<url> --title=<site-title> [--admin_name=<username>] --admin_email=<email> --admin_password=<password>
+	*/
+	public function setup_theme( $args = null, $assoc_args = array() ){
 
-			# plugins check, install, activation
-			$plugins = array(
-				'debogger', 
-				'debug-bar', 
-				'developer', 
-				'log-deprecated-notices', 
-				'monster-widget', 
-				'regenerate-thumbnails',
-				'theme-check', 
-				'wordpress-beta-tester', 
-				'wordpress-importer',
-			);
+		$this->maybe_reinstall( $assoc_args );
 
-			foreach ( $plugins as $plugin ):
-				$res = WP_CLI::launch( 'wp plugin status '.$plugin, false );
-			if ( isset( $res) && $res === 1 ){
-				# install and activate plugin
-				WP_CLI::launch( 'wp plugin install '.$plugin.' --activate' );
-			} else {
-				# activate plugin
-				WP_CLI::launch( 'wp plugin activate '.$plugin );
-			}
-			endforeach;
+		# plugin check and activation
+		$this->manage_plugins();
 
-			# test data download + import
-			$silent  = WP_CLI::get_config( 'quiet' ) ? '--silent ' : '';
-			$cmdline = "curl -f $silent $download_url -o /tmp/theme-unit-test-data.xml";
-			WP_CLI::launch( $cmdline );
-			WP_CLI::launch( 'wp import /tmp/theme-unit-test-data.xml --authors=skip' );
+		# test data download and import
+		$this->import_test_data( $assoc_args );
 
-			# option update
-			$this->update_test_options();
+		# blog option update
+		$this->update_test_options();
 
-			break;
-		endswitch;
+		# custom menu optional setup
+		if ( isset( $assoc_args['menus'] ) ):
+			$this->create_test_menus();
+		endif;
 	}
 
 }
