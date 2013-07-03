@@ -155,25 +155,30 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	* Setup theme test options, data and plugins
 	* 
 	* @when after_wp_load
-	* @synopsis [--data=<wxr>] [--menus] [--reset] --url=<url> --title=<site-title> [--admin_name=<username>] --admin_email=<email> --admin_password=<password>
+	* @synopsis <target> [--data=<wxr>] [--menus] [--reset] --url=<url> --title=<site-title> [--admin_name=<username>] --admin_email=<email> --admin_password=<password>
 	*/
-	public function setup_theme( $args = null, $assoc_args = array() ){
+	public function setup( $args, $assoc_args = array() ){
+		list( $target ) = $args;
 
-		$this->maybe_reinstall( $assoc_args );
+		switch ( $target ):
+			case 'theme':
+				$this->maybe_reinstall( $assoc_args );
+				$this->manage_plugins(); // plugin check and activation
+				$this->import_test_data( $assoc_args ); // test data download and import
+				$this->update_test_options(); // blog option update
+				if ( isset( $assoc_args['menus'] ) ):
+					$this->create_test_menus(); // custom menu optional setup
+				endif;
+			break;
 
-		# plugin check and activation
-		$this->manage_plugins();
+			case 'plugin':
+				WP_CLI::launch( 'wp scaffold plugin-tests ' );
+			break;
 
-		# test data download and import
-		$this->import_test_data( $assoc_args );
-
-		# blog option update
-		$this->update_test_options();
-
-		# custom menu optional setup
-		if ( isset( $assoc_args['menus'] ) ):
-			$this->create_test_menus();
-		endif;
+			case 'core':
+				WP_CLI::launch( 'wp core init-tests' );
+			break;
+		endswitch;
 	}
 
 }
