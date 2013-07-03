@@ -1,0 +1,33 @@
+{
+  "name": "wp-cli_test_command",
+  "version": "0.2.1",
+  "description": "Install and run WordPress unit tests from wp-cli",
+  "main": "Gruntfile.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "grunt": "~0.4.1",
+    "grunt-cli": "~0.1.9",
+    "grunt-phpcs": "~0.1.1",
+    "grunt-shell": "~0.2.2",
+    "grunt-phplint": "0.0.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:pixline/wp-cli-test-command.git"
+  },
+  "keywords": [
+    "wp",
+    "plugin",
+    ""
+  ],
+  "author": "pixline",
+  "license": "GPL2",
+  "gitHead": "915d78d01d8a53c9c959cd7d19e2731d2a779123",
+  "readmeFilename": "README.md"
+}
