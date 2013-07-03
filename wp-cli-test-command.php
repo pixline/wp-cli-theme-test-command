@@ -89,8 +89,7 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 
           WP_CLI::launch( 'wp option update permalink_structure "/%year%/%monthnum%/%day%/%postname%/"' );
 
-          # create long custom menu, all pages
-
+          # create custom list with pages
           $pages = get_all_page_ids();
           $items = array(); 
           foreach ( $pages as $key => $page_ID ):
@@ -98,15 +97,41 @@ class Unit_Test_Cmd extends WP_CLI_Command{
             $items[ $info->post_title ] = get_permalink( $page_ID );
           endforeach;
 
+          # pick three random entries
+          $random = array_rand( $items, 3 );
+
+          # build menus
           $menus = array(
             'Full Menu' => array(
               'slug' => 'full-menu',
               'menu_items' => $items,
-            )
+            ),
+            'Short Menu' => array(
+              'slug' => 'short-menu',
+              'menu_items' => array(
+                  $items[ $random[0] ],
+                  $items[ $random[1] ],
+                  $items[ $random[2] ],
+              )
+            ),
           );
 
-          print_r( $menus );
-          # todo: create short custom menu, 2/3 pages
+          # register menus
+          foreach ( $menus as $title => $data ):
+            register_nav_menu( $data['slug'], $title );
+            if ( false == is_nav_menu( $title ) ):
+              $menu_ID = wp_create_nav_menu( $title );
+              foreach ( $data['menu_items'] as $name => $url ):
+                $add_item = array(
+                  'menu-item-type' => 'custom',
+                  'menu-item-url' => $url,
+                  'menu-item-title' => $name,
+                );
+                wp_update_nav_menu_item( $menu_ID, 0, $add_item );
+              endforeach;
+            endif;
+          endforeach;
+
         break;
       endswitch;
     }
