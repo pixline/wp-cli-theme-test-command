@@ -22,7 +22,7 @@ class Unit_Test_Cmd extends WP_CLI_Command{
       $dataurl = 'https://wpcom-themes.svn.automattic.com/demo/theme-unit-test-data.xml';
       $download_url = isset( $assoc_args['data'] ) ? $assoc_args['data'] : $dataurl;
 
-      switch ( $target ) :
+      switch ( $target ) :   
         case 'theme' :
         default: 
 
@@ -92,7 +92,23 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 
           WP_CLI::launch( 'wp option update permalink_structure "/%year%/%monthnum%/%day%/%postname%/"' );
 
-          # todo: create long custom menu, all pages
+          # create long custom menu, all pages
+
+          $pages = get_all_page_ids();
+          $items = array(); 
+          foreach ( $pages as $key => $page_ID ):
+            $info = get_page( $page_ID );
+            $items[ $info->post_title ] = get_permalink( $page_ID );
+          endforeach;
+
+          $menus = array(
+            'Full Menu' => array(
+              'slug' => 'full-menu',
+              'menu_items' => $items,
+            )
+          );
+
+          print_r( $menus );
           # todo: create short custom menu, 2/3 pages
         break;
       endswitch;
