@@ -151,6 +151,18 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 		WP_CLI::launch( 'wp import /tmp/theme-unit-test-data.xml --authors=skip' );
 	}
 
+
+	/**
+	* Install and setup themes unit test options, data and plugins
+	* 
+	* @when after_wp_load
+	* @synopsis <target> 
+	*/
+	public function install( $args, $assoc_args = array() ){
+		print_r( $args );
+	}
+
+
 	/**
 	* Setup theme test options, data and plugins
 	* 
