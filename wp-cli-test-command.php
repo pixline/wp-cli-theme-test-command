@@ -171,7 +171,8 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	*/
 	public function setup( $args, $assoc_args = array() ){
 		list( $target ) = $args;
-
+		print_r( $args );
+		die();
 		switch ( $target ):
 			case 'theme':
 				$this->maybe_reinstall( $assoc_args );
