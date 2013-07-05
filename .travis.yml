@@ -16,6 +16,6 @@ before_script:
     - composer require wp-cli/wp-cli=dev-master --no-interaction --prefer-source
     - composer require d11wtq/boris=@stable --no-interaction --prefer-source
     - composer config repositories.theme_test vcs https://github.com/pixline/wp-cli-theme-test-command
-    - composer require pixline/wp-cli-theme-test-command=@dev-master --no-interaction --prefer-source
+    - composer require pixline/wp-cli-theme-test-command=dev-master --no-interaction --prefer-source
 
 script: wp --version
