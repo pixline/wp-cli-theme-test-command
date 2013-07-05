@@ -84,41 +84,6 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 	}
 
 	/**
-	 * Install or reset/reinstall WordPress 
-	 * 
-	 * @param array $assoc_args  Incoming args associative array
-	 */
-	private function maybe_reinstall( $assoc_args ){
-		# if asked, reset database and install WP
-		if ( isset( $assoc_args['reset'] ) ):
-			# does we have mandatory info?
-			if (
-				isset( $assoc_args['url'] ) &&
-				isset( $assoc_args['title'] ) &&
-				isset( $assoc_args['admin_name'] ) &&
-				isset( $assoc_args['admin_email'] ) &&
-				isset( $assoc_args['admin_password'] )
-			):
-				WP_CLI::launch( 'wp db reset' );
-				WP_CLI::launch(
-				'wp core install '
-				.' --url='.$assoc_args['url']
-				.' --title='.$assoc_args['title']
-				.' --admin_name='.$assoc_args['admin_name']
-				.' --admin_email='.$assoc_args['admin_email']
-				.' --admin_password='.$assoc_args['admin_password']
-				);
-			else :
-			WP_CLI::error( 'Usage: wp theme-test install [--data=<data>] [--menus] [--reset] [--url=<url>] [--title=<title>] [--admin_name=<admin_name>] [--admin_email=<admin_email>] [--admin_password=<admin_password>]' );
-			endif;
-
-		else :
-			# check if WP is installed, or install it
-			WP_CLI::launch( 'wp core is-installed' );
-		endif;
-	}
-
-	/**
 	 * Check plugin status, install and activate as needed
 	 */
 	private function manage_plugins(){
@@ -178,12 +143,9 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 	* --menus 								Create custom nav menus (full page list, short random page list)
 	* 
 	* @when after_wp_load
-	* @synopsis [--data=<data>] [--url=<url>] [--title=<title>] [--admin_name=<admin_name>] [--admin_email=<admin_email>] [--admin_password=<admin_password>] [--menus] [--reset] 
+	* @synopsis [--data=<data>] [--menus] 
 	*/
 	public function install( $args = null, $assoc_args = array() ){
-
-		# db reset + WP (re)install
-		$this->maybe_reinstall( $assoc_args );
 
 		# plugin check, download and activation
 		$this->manage_plugins(); 	
