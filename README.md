@@ -22,6 +22,9 @@ wp theme-test setup [options]
                         (default dataset have them already)
 ```
 
+It can be used to reset and reinstall WP test site programmatically, as in [this gist](https://gist.github.com/pixline/5937737)
+
+
 ## Installation
 
 Composer installation as referenced in [wp-cli Community Packages setup](https://github.com/wp-cli/wp-cli/wiki/Community-Packages).
