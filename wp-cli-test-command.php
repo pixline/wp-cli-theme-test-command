@@ -160,8 +160,19 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	*/
 	public function install( $args, $assoc_args = array() ){
 		list( $target ) = $args;
-		print_r( $args );
-		var_dump( $target );
+		switch ( $target ):
+			case 'theme':
+				WP_CLI::line( 'Theme Unit Test data & plugins installing, please wait.' );
+			break;
+
+			case 'plugin':
+				WP_CLI::line( 'Plugin Unit Test scripts installing, please wait.' );
+			break;
+
+			default:
+				WP_CLI::line( 'Usage: wp test setup [theme|plugin|core]' );
+			break;
+		endswitch;
 	}
 
 
