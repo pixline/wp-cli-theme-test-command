@@ -90,9 +90,15 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	 */
 	private function maybe_reinstall( $assoc_args ){
 		# WordPress reset/reinstall
-		if ( isset( $assoc_args['reset'] ) ):
+		if (
+			isset( $assoc_args['reset'] ) &&
+			isset( $assoc_args['title'] ) &&
+			isset( $assoc_args['admin_name'] ) &&
+			isset( $assoc_args['admin_email'] ) &&
+			isset( $assoc_args['admin_password'] )
+		):
 			# reset wp
-			WP_CLI::launch( 'wp db reset --yes' );
+			WP_CLI::launch( 'wp db reset' );
 
 			# install wp
 			WP_CLI::launch(
