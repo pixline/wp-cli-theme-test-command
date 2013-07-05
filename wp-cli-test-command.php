@@ -89,16 +89,17 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	 * @param array $assoc_args  Incoming args associative array
 	 */
 	private function maybe_reinstall( $assoc_args ){
-		# WordPress reset/reinstall
-		if ( isset( $assoc_args['reset'] ) ):
-			# check credentials before db reset!
-			if (
-				isset( $assoc_args['title'] ) &&
-				isset( $assoc_args['admin_name'] ) &&
-				isset( $assoc_args['admin_email'] ) &&
-				isset( $assoc_args['admin_password'] )
-			):
-				WP_CLI::launch( 'wp db reset' );
+		# check info
+		if (
+			isset( $assoc_args['url'] ) &&
+			isset( $assoc_args['title'] ) &&
+			isset( $assoc_args['admin_name'] ) &&
+			isset( $assoc_args['admin_email'] ) &&
+			isset( $assoc_args['admin_password'] )
+		):
+			# WordPress reset/reinstall
+			if ( isset( $assoc_args['reset'] ) ):
+				WP_CLI::launch( 'wp db reset --yes' );
 				WP_CLI::launch(
 				'wp core install '
 				.' --url='.$assoc_args['url']
@@ -108,10 +109,10 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 				.' --admin_password='.$assoc_args['admin_password']
 				);
 			else :
-				WP_CLI::error( 'Usage: wp tester install theme --reset --title= [--admin_name=] --admin_email= --admin_password=' );
+				WP_CLI::launch( 'wp core is-installed' );
 			endif;
 		else :
-			WP_CLI::launch( 'wp core is-installed' );
+			WP_CLI::error( 'Usage: wp tester install theme --reset --url= --title= [--admin_name=] --admin_email= --admin_password=' );
 		endif;
 	}
 
@@ -163,7 +164,7 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	* Install and setup themes unit test options, data and plugins
 	* 
 	* @when after_wp_load
-	* @synopsis <theme|plugin|core> [--reset] [--menu] [--data=] --title=<title> [--admin_name=<admin_name>] --admin_email=<admin_email> --admin_password=<admin_password>
+	* @synopsis <theme|plugin|core> [--reset] [--menu] [--data=] --url=<url> --title=<title> [--admin_name=<admin_name>] --admin_email=<admin_email> --admin_password=<admin_password>
 	*/
 	public function install( $args, $assoc_args = array() ){
 		list( $target ) = $args;
