@@ -89,16 +89,16 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 	 * @param array $assoc_args  Incoming args associative array
 	 */
 	private function maybe_reinstall( $assoc_args ){
-		# does we have mandatory info?
-		if (
-			isset( $assoc_args['url'] ) &&
-			isset( $assoc_args['title'] ) &&
-			isset( $assoc_args['admin_name'] ) &&
-			isset( $assoc_args['admin_email'] ) &&
-			isset( $assoc_args['admin_password'] )
-		):
-			# if asked, reset database and install WP
-			if ( isset( $assoc_args['reset'] ) ):
+		# if asked, reset database and install WP
+		if ( isset( $assoc_args['reset'] ) ):
+			# does we have mandatory info?
+			if (
+				isset( $assoc_args['url'] ) &&
+				isset( $assoc_args['title'] ) &&
+				isset( $assoc_args['admin_name'] ) &&
+				isset( $assoc_args['admin_email'] ) &&
+				isset( $assoc_args['admin_password'] )
+			):
 				WP_CLI::launch( 'wp db reset' );
 				WP_CLI::launch(
 				'wp core install '
@@ -109,12 +109,12 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 				.' --admin_password='.$assoc_args['admin_password']
 				);
 			else :
-				# check if WP is installed, or install it
-				WP_CLI::launch( 'wp core is-installed' );
-			endif;
-		else :
-
 			WP_CLI::error( 'Usage: wp theme-test install [--data=<data>] [--menus] [--reset] [--url=<url>] [--title=<title>] [--admin_name=<admin_name>] [--admin_email=<admin_email>] [--admin_password=<admin_password>]' );
+			endif;
+
+		else :
+			# check if WP is installed, or install it
+			WP_CLI::launch( 'wp core is-installed' );
 		endif;
 	}
 
