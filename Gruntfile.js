@@ -17,7 +17,7 @@ module.exports = function (grunt) {
     },
 
     phplint: {
-      uploadplus: [ 'wp-cli-test-command.php' ],
+      main: [ 'wp-cli-test-command.php' ],
     },
 
     shell: {
