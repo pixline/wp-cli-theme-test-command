@@ -4,7 +4,7 @@
   "description": "Install and run WordPress unit tests.",
   "keywords": ["wp-cli","theme-test"],
   "homepage": "https://github.com/pixline/wp-cli-theme-test-command",
-  "license": "GPL2",
+  "license": "GPL-2.0+",
   "authors": [
     {
       "name": "Paolo Tresso",
