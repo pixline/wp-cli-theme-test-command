@@ -200,11 +200,6 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 		endif;
 	}
 
-
-	function run( $args, $assoc_args = array() ){
-
-	}
-
 }
 
 WP_CLI::add_command( 'theme-test', 'Theme_Test_Cmd' );
