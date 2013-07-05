@@ -164,47 +164,10 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	* Install and setup themes unit test options, data and plugins
 	* 
 	* @when after_wp_load
-	* @synopsis <theme|plugin|core> [--data=<wxr>] [--menus] [--reset] --url=<url> --title=<title> [--admin_name=<admin_name>] --admin_email=<admin_email> --admin_password=<admin_password>
+	* @synopsis <theme|plugin|core> [slug] [--data=<wxr>] [--menus] [--reset] --url=<url> --title=<title> [--admin_name=<admin_name>] --admin_email=<admin_email> --admin_password=<admin_password>
 	*/
 	public function install( $args, $assoc_args = array() ){
 		list( $target ) = $args;
-		switch ( $target ):
-			case 'theme':
-				$this->maybe_reinstall( $assoc_args );
-				$this->manage_plugins(); // plugin check and activation
-				$this->import_test_data( $assoc_args ); // test data download and import
-				$this->update_test_options(); // blog option update
-				if ( isset( $assoc_args['menus'] ) ):
-					$this->create_test_menus(); // custom menu optional setup
-				endif;
-			break;
-
-			case 'plugin':
-				WP_CLI::launch( 'wp scaffold plugin-tests ' );
-			break;
-
-			case 'core':
-				WP_CLI::launch( 'wp core init-tests' );
-			break;
-
-
-			default:
-				WP_CLI::line( 'Usage: wp test setup [theme|plugin|core]' );
-			break;
-		endswitch;
-	}
-
-
-	/**
-	* Setup theme test options, data and plugins
-	* 
-	* @when after_wp_load
-	* @synopsis <target> [--data=<wxr>] [--menus] [--reset] --url=<url> --title=<site-title> [--admin_name=<username>] --admin_email=<email> --admin_password=<password>
-	*/
-	public function setup( $args, $assoc_args = array() ){
-		list( $target ) = $args;
-		WP_CLI::line( 'Target: '.$target );
-		die();
 		switch ( $target ):
 			case 'theme':
 				$this->maybe_reinstall( $assoc_args );
