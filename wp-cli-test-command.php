@@ -108,7 +108,7 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 				.' --admin_password='.$assoc_args['admin_password']
 				);
 			else :
-				WP_CLI::line( 'Usage: wp tester install theme --reset --title= [--admin_name=] --admin_email= --admin_password=' );
+				WP_CLI::error( 'Usage: wp tester install theme --reset --title= [--admin_name=] --admin_email= --admin_password=' );
 			endif;
 		else :
 			WP_CLI::launch( 'wp core is-installed' );
