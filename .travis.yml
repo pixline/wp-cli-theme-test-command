@@ -18,9 +18,10 @@ before_script:
     # set up wp-cli
     - composer install
     - export VERSION="dev-master" && curl http://wp-cli.org/installer.sh | bash
+    - ls -a $HOME
     - cd $HOME/.composer
-    - composer config repositories.theme_test vcs https://github.com/pixline/wp-cli-theme-test-command
+    - composer config repositories.theme_test vcs $HOME/pixline/wp-cli-theme-test-command
     - composer require pixline/wp-cli-theme-test-command=dev-master
-    - bash pixline/wp-cli-theme-test-command/build/travisci.sh
+    - bash $HOME/pixline/wp-cli-theme-test-command/build/travisci.sh
 
 script: phpunit
