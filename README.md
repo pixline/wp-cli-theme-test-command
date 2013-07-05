@@ -2,6 +2,8 @@
 
 Install and configure Theme "unit tests" (sample data, required plugins and options) with wp-cli
 
+http://codex.wordpress.org/Theme_Unit_Test
+
 ## Usage
 
 ```
