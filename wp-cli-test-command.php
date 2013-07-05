@@ -89,6 +89,7 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	 * @param array $assoc_args  Incoming args associative array
 	 */
 	private function maybe_reinstall( $assoc_args ){
+		print_r( $assoc_args );
 		# check info
 		if (
 			isset( $assoc_args['url'] ) &&
