@@ -177,7 +177,7 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	* --menus 								Create custom nav menus (full page list, short random page list)
 	* 
 	* @when after_wp_load
-	* @synopsis <target> [<slug>] [--data=<data>] [--url=<url>] [--title=<title>] [--admin_name=<admin_name>] [--admin_email=<admin_email>] [--admin_password=<admin_password>] [--menus] [--reset] 
+	* @synopsis <target> [<slug>] [--data=<data>] [--url=<url>] [--title=<title>] [--admin_name=<admin_name>] [--admin_email=<admin_email>] [--admin_password=<admin_password>] [--menus] [--reset] [--dbname] [--dbuser] [--dbpass]
 	*/
 	public function install( $args, $assoc_args = array() ){
 		list( $target, $slug ) = $args;
@@ -205,7 +205,7 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 				$command = 'wp core init-tests'
 					.' --dbname='.$assoc_args['dbname']
 					.' --dbuser='.$assoc_args['dbuser']
-					.' --dbpassword='.$assoc_args['dbpassword'];
+					.' --dbpass='.$assoc_args['dbpass'];
 				WP_CLI::launch( $command );
 			break;
 
@@ -215,6 +215,10 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 		endswitch;
 	}
 
+
+	function run( $args, $assoc_args = array() ){
+
+	}
 
 }
 
