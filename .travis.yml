@@ -9,12 +9,14 @@ env:
 before_install:
     # set up database
     - mysql -e 'CREATE DATABASE wordpress_test;' -uroot
+    - set -ex
+    - curl http://wp-cli.org/installer.sh | bash
+    - cd $HOME/.composer
+    - composer require wp-cli/wp-cli=dev-master
+    - composer config repositories.theme_test vcs https://github.com/pixline/wp-cli-theme-test-command
+    - composer require pixline/wp-cli-theme-test-command=dev-master
+    - $HOME/.composer/bin/wp
 
 before_script:
-    - set -ex
-    - composer install --dev --no-interaction --prefer-source
-    - composer config repositories.wp-cli vcs https://github.com/wp-cli/wp-cli
-    - composer require wp-cli/wp-cli=dev-master --no-interaction --prefer-source
-    - cat /home/travis/.composer/composer.json
 
-script: /home/travis/.composer/bin/wp
+script: 
