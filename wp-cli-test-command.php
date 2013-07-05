@@ -8,7 +8,7 @@
  * @synopsis <action>
  */
 
-class Unit_Test_Cmd extends WP_CLI_Command{
+class Theme_Test_Cmd extends WP_CLI_Command{
 
 	/**
 	 * create optional test nav menu
@@ -89,7 +89,7 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	 * @param array $assoc_args  Incoming args associative array
 	 */
 	private function maybe_reinstall( $assoc_args ){
-		# check info
+		# does we have mandatory info?
 		if (
 			isset( $assoc_args['url'] ) &&
 			isset( $assoc_args['title'] ) &&
@@ -97,9 +97,9 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 			isset( $assoc_args['admin_email'] ) &&
 			isset( $assoc_args['admin_password'] )
 		):
-			# WordPress reset/reinstall
+			# if asked, reset database and install WP
 			if ( isset( $assoc_args['reset'] ) ):
-				WP_CLI::launch( 'wp db reset' );
+				WP_CLI::launch( 'wp db reset' );			
 				WP_CLI::launch(
 				'wp core install '
 				.' --url='.$assoc_args['url']
@@ -109,10 +109,12 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 				.' --admin_password='.$assoc_args['admin_password']
 				);
 			else :
+				# check if WP is installed, or install it
 				WP_CLI::launch( 'wp core is-installed' );
 			endif;
 		else :
-			WP_CLI::error( 'Usage: wp tester install theme --reset --url= --title= [--admin_name=] --admin_email= --admin_password=' );
+
+			WP_CLI::error( 'Usage: wp theme-test setup --reset --url= --title= --admin_name= --admin_email= --admin_password=' );
 		endif;
 	}
 
@@ -161,11 +163,10 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 
 
 	/**
-	* Install and setup themes unit test options, data and plugins
+	* Install and setup theme unit test options, data and plugins
 	* 
-	* # Theme Unit Tests install
+	* Usage: wp theme-test setup [options]
 	* 
-	* Usage: wp tester install theme [options]
 	* --data=<url|path>				URL/path to WXR data file
 	*
 	* --reset 								Reinstall a clean WordPress instance
@@ -177,42 +178,26 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	* --menus 								Create custom nav menus (full page list, short random page list)
 	* 
 	* @when after_wp_load
-	* @synopsis <target> [<slug>] [--data=<data>] [--url=<url>] [--title=<title>] [--admin_name=<admin_name>] [--admin_email=<admin_email>] [--admin_password=<admin_password>] [--menus] [--reset] [--dbname] [--dbuser] [--dbpass]
+	* @synopsis [<slug>] [--data=<data>] [--url=<url>] [--title=<title>] [--admin_name=<admin_name>] [--admin_email=<admin_email>] [--admin_password=<admin_password>] [--menus] [--reset] [--dbname] [--dbuser] [--dbpass]
 	*/
-	public function install( $args, $assoc_args = array() ){
-		list( $target, $slug ) = $args;
+	public function install( $args = null, $assoc_args = array() ){
 
-		switch ( $target ):
-			case 'reset':
-				$this->maybe_reinstall( $assoc_args );
-			break;
+		# db reset + WP (re)install
+		$this->maybe_reinstall( $assoc_args );
 
-			case 'theme':
-				$this->manage_plugins(); // plugin check and activation
-				$this->import_test_data( $assoc_args ); // test data download and import
-				$this->update_test_options(); // blog option update
-				if ( isset( $assoc_args['menus'] ) ):
-					$this->create_test_menus(); // custom menu optional setup
-				endif;
-			break;
+		# plugin check, download and activation
+		$this->manage_plugins(); 	
 
-			case 'plugin':
-				if ( isset( $slug ) )
-					WP_CLI::launch( 'wp scaffold plugin-tests ' . $slug );
-			break;
+		# download and import test data
+		$this->import_test_data( $assoc_args );
 
-			case 'core':
-				$command = 'wp core init-tests'
-					.' --dbname='.$assoc_args['dbname']
-					.' --dbuser='.$assoc_args['dbuser']
-					.' --dbpass='.$assoc_args['dbpass'];
-				WP_CLI::launch( $command );
-			break;
+		# update blog options
+		$this->update_test_options();
 
-			default:
-				WP_CLI::line( 'Usage: wp test setup [theme|plugin|core]' );
-			break;
-		endswitch;
+		# (optional) create custom menus
+		if ( isset( $assoc_args['menus'] ) ):
+			$this->create_test_menus();
+		endif;
 	}
 
 
@@ -222,4 +207,4 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 
 }
 
-WP_CLI::add_command( 'test', 'Unit_Test_Cmd' );
+WP_CLI::add_command( 'theme-test', 'Theme_Test_Cmd' );
