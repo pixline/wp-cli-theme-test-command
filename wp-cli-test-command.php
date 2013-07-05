@@ -156,7 +156,7 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	* Install and setup themes unit test options, data and plugins
 	* 
 	* @when after_wp_load
-	* @synopsis <target> 
+	* @synopsis <theme|plugin|core> 
 	*/
 	public function install( $args, $assoc_args = array() ){
 		list( $target ) = $args;
