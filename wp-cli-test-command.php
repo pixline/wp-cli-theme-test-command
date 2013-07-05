@@ -163,11 +163,24 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 		switch ( $target ):
 			case 'theme':
 				WP_CLI::line( 'Theme Unit Test data & plugins installing, please wait.' );
+				$this->maybe_reinstall( $assoc_args );
+				$this->manage_plugins(); // plugin check and activation
+				$this->import_test_data( $assoc_args ); // test data download and import
+				$this->update_test_options(); // blog option update
+				if ( isset( $assoc_args['menus'] ) ):
+					$this->create_test_menus(); // custom menu optional setup
+				endif;
 			break;
 
 			case 'plugin':
 				WP_CLI::line( 'Plugin Unit Test scripts installing, please wait.' );
+				WP_CLI::launch( 'wp scaffold plugin-tests ' );
 			break;
+
+			case 'core':
+				WP_CLI::launch( 'wp core init-tests' );
+			break;
+
 
 			default:
 				WP_CLI::line( 'Usage: wp test setup [theme|plugin|core]' );
