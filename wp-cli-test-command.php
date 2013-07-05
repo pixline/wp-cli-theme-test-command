@@ -164,10 +164,10 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	* Install and setup themes unit test options, data and plugins
 	* 
 	* @when after_wp_load
-	* @synopsis <target> [--data=<wxr>] [--menus] [--reset] --url=<url> --title=<title> [--admin_name=<admin_name>] --admin_email=<admin_email> --admin_password=<admin_password>
+	* @synopsis <target> [<slug>] [--data=<data>] [--url=<url>] [--title=<title>] [--admin_name=<admin_name>] [--admin_email=<admin_email>] [--admin_password=<admin_password>] [--menus] [--reset] 
 	*/
 	public function install( $args, $assoc_args = array() ){
-		list( $target ) = $args;
+		list( $target, $slug ) = $args;
 
 		switch ( $target ):
 			case 'reset':
@@ -184,7 +184,8 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 			break;
 
 			case 'plugin':
-				WP_CLI::launch( 'wp scaffold plugin-tests ' );
+				if ( isset( $slug ) )
+					WP_CLI::launch( 'wp scaffold plugin-tests ' . $slug );
 			break;
 
 			case 'core':
