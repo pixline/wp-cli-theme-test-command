@@ -90,25 +90,26 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	 */
 	private function maybe_reinstall( $assoc_args ){
 		# WordPress reset/reinstall
-		if (
-			isset( $assoc_args['reset'] ) &&
-			isset( $assoc_args['title'] ) &&
-			isset( $assoc_args['admin_name'] ) &&
-			isset( $assoc_args['admin_email'] ) &&
-			isset( $assoc_args['admin_password'] )
-		):
-			# reset wp
-			WP_CLI::launch( 'wp db reset' );
-
-			# install wp
-			WP_CLI::launch(
-			'wp core install '
-			.' --url='.$assoc_args['url']
-			.' --title='.$assoc_args['title']
-			.' --admin_name='.$assoc_args['admin_name']
-			.' --admin_email='.$assoc_args['admin_email']
-			.' --admin_password='.$assoc_args['admin_password']
-			);
+		if ( isset( $assoc_args['reset'] ) ):
+			# check credentials before db reset!
+			if (
+				isset( $assoc_args['title'] ) &&
+				isset( $assoc_args['admin_name'] ) &&
+				isset( $assoc_args['admin_email'] ) &&
+				isset( $assoc_args['admin_password'] )
+			):
+				WP_CLI::launch( 'wp db reset' );
+				WP_CLI::launch(
+				'wp core install '
+				.' --url='.$assoc_args['url']
+				.' --title='.$assoc_args['title']
+				.' --admin_name='.$assoc_args['admin_name']
+				.' --admin_email='.$assoc_args['admin_email']
+				.' --admin_password='.$assoc_args['admin_password']
+				);
+			else :
+				WP_CLI::line( 'Usage: wp tester install theme --reset --title= [--admin_name=] --admin_email= --admin_password=' );
+			endif;
 		else :
 			WP_CLI::launch( 'wp core is-installed' );
 		endif;
