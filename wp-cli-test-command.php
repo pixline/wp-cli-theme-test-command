@@ -202,7 +202,11 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 			break;
 
 			case 'core':
-				WP_CLI::launch( 'wp core init-tests' );
+				$command = 'wp core init-tests'
+					.' --dbname='.$assoc_args['dbname']
+					.' --dbuser='.$assoc_args['dbuser']
+					.' --dbpassword='.$assoc_args['dbpassword'];
+				WP_CLI::launch( $command );
 			break;
 
 			default:
