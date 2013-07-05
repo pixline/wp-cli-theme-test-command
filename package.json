@@ -1,6 +1,6 @@
 {
-  "name": "wp-cli_test_command",
-  "version": "0.2.2",
+  "name": "wp-cli_theme_test_command",
+  "version": "0.3.2",
   "description": "Install and run WordPress unit tests from wp-cli",
   "main": "Gruntfile.js",
   "directories": {
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "ssh://git@github.com:pixline/wp-cli-test-command.git"
+    "url": "ssh://git@github.com:pixline/wp-cli-theme-test-command.git"
   },
   "keywords": [
     "wp",
