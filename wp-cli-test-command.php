@@ -163,6 +163,18 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	/**
 	* Install and setup themes unit test options, data and plugins
 	* 
+	* # Theme Unit Tests install
+	* Usage: wp tester install theme [options]
+	* --data=<url|path>				URL/path to WXR data file
+	*
+	* --reset 								Reinstall a clean WordPress instance
+	* 	--title=""						Blog Title  
+	* 	--admin_name=""				Admin username
+	* 	--admin_email=""			Admin email address
+	* 	--admin_password=""		Admin password
+	* 
+	* --menus 								Create custom nav menus (full page list, short random page list)
+	* 
 	* @when after_wp_load
 	* @synopsis <target> [<slug>] [--data=<data>] [--url=<url>] [--title=<title>] [--admin_name=<admin_name>] [--admin_email=<admin_email>] [--admin_password=<admin_password>] [--menus] [--reset] 
 	*/
