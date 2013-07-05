@@ -1,39 +1,29 @@
-# wp-cli test command
+# wp-cli theme-test command
 
-Install and configure Unit Tests (theme, plugins, core) with wp-cli
+Install and configure Theme "unit tests" (sample data, required plugins and options) with wp-cli
 
 ## Usage
 
 ```
-wp test install theme [options]
---data=<url|path>       URL/path to WXR data file
+wp theme-test setup [options]
 
---reset                 Reset and install a clean WordPress
-  --url=""              Blog URL  
-  --title=""            Blog Title  
-  --admin_name=""       Admin username
-  --admin_email=""      Admin email address
-  --admin_password=""   Admin password
+[--data=<url|path>]     URL/path to WXR data file
 
---menus                 Add custom nav menu (built-in in default WXR)
-```
+[--reset]               Reset and install a clean WordPress
+  --url=<url>                 Blog URL  
+  --title=<title>             Blog Title  
+  --admin_name=<username>     Admin username
+  --admin_email=<email>       Admin email address
+  --admin_password=<password> Admin password
 
-```
-wp test install plugin <slug>
-```
+[--menus]               Add (optional) custom nav menu
+                        (default dataset have them already)
 
-```
-wp test install core [options]
-
---dbname=""   Test db name
---dbuser=""   Test db username
---dbpass=""   Test db password
-```
 
 
 ## Installation
 
-Composer installation as referenced in [Community Packages setup](https://github.com/wp-cli/wp-cli/wiki/Community-Packages).
+Composer installation as referenced in [wp-cli Community Packages setup](https://github.com/wp-cli/wp-cli/wiki/Community-Packages).
 
 0) [Install wp-cli](http://wp-cli.org#install)
 
@@ -46,7 +36,7 @@ cd ~/.composer
 2) Add the repository containing the desired package:
 
 ```bash
-composer config repositories.unit_test vcs https://github.com/pixline/wp-cli-test-command
+composer config repositories.theme_test vcs https://github.com/pixline/wp-cli-test-command
 ```
 
 3) Install the package:
