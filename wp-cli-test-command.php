@@ -156,13 +156,12 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	* Install and setup themes unit test options, data and plugins
 	* 
 	* @when after_wp_load
-	* @synopsis <theme|plugin|core> 
+	* @synopsis <theme|plugin|core> [--reset] [--menu] [--data=] --title= [--admin_name=] --admin_email= --admin_password=
 	*/
 	public function install( $args, $assoc_args = array() ){
 		list( $target ) = $args;
 		switch ( $target ):
 			case 'theme':
-				WP_CLI::line( 'Theme Unit Test data & plugins installing, please wait.' );
 				$this->maybe_reinstall( $assoc_args );
 				$this->manage_plugins(); // plugin check and activation
 				$this->import_test_data( $assoc_args ); // test data download and import
@@ -173,7 +172,6 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 			break;
 
 			case 'plugin':
-				WP_CLI::line( 'Plugin Unit Test scripts installing, please wait.' );
 				WP_CLI::launch( 'wp scaffold plugin-tests ' );
 			break;
 
