@@ -31,7 +31,7 @@ Composer installation as referenced in [wp-cli Community Packages setup](https:/
 ```bash
 cd ~/.composer
 ```
-2) If ```wp --version```  is < 0.11.0, upgrade ```composer.json`` wp-cli reference to the development version
+2) If ```wp --version```  is < 0.11.0, edit ```composer.json`` wp-cli reference line to match this one:
 
 ```
         "wp-cli/wp-cli": "dev-master",
