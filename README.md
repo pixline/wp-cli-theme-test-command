@@ -14,7 +14,7 @@ wp test install theme [options]
   --admin_email=""      Admin email address
   --admin_password=""   Admin password
 
---menus                 Create custom nav menus (full page list, short random page list)
+--menus                 Create custom nav menu (built-in in default WXR)
 ```
 
 ```bash
