@@ -164,10 +164,11 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	* Install and setup themes unit test options, data and plugins
 	* 
 	* @when after_wp_load
-	* @synopsis <theme|plugin|core> [--data=<wxr>] [--menus] [--reset] --url=<url> --title=<title> [--admin_name=<admin_name>] --admin_email=<admin_email> --admin_password=<admin_password>
+	* @synopsis <target> [--data=<wxr>] [--menus] [--reset] --url=<url> --title=<title> [--admin_name=<admin_name>] --admin_email=<admin_email> --admin_password=<admin_password>
 	*/
 	public function install( $args, $assoc_args = array() ){
-		switch ( $args[0] ):
+		list( $target ) = $args;
+		switch ( $target ):
 			case 'theme':
 				$this->maybe_reinstall( $assoc_args );
 				$this->manage_plugins(); // plugin check and activation
