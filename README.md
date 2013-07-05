@@ -18,8 +18,7 @@ wp theme-test setup [options]
 
 [--menus]               Add (optional) custom nav menu
                         (default dataset have them already)
-
-
+```
 
 ## Installation
 
