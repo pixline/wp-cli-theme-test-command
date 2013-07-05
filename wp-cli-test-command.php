@@ -99,7 +99,7 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 		):
 			# WordPress reset/reinstall
 			if ( isset( $assoc_args['reset'] ) ):
-				WP_CLI::launch( 'wp db reset --yes' );
+				WP_CLI::launch( 'wp db reset' );
 				WP_CLI::launch(
 				'wp core install '
 				.' --url='.$assoc_args['url']
