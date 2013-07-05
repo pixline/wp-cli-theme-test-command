@@ -99,7 +99,7 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 		):
 			# if asked, reset database and install WP
 			if ( isset( $assoc_args['reset'] ) ):
-				WP_CLI::launch( 'wp db reset' );			
+				WP_CLI::launch( 'wp db reset' );
 				WP_CLI::launch(
 				'wp core install '
 				.' --url='.$assoc_args['url']
