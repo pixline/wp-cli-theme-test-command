@@ -162,7 +162,9 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 
 	/**
 	* Install and setup themes unit test options, data and plugins
+	* 
 	* # Theme Unit Tests install
+	* 
 	* Usage: wp tester install theme [options]
 	* --data=<url|path>				URL/path to WXR data file
 	*
