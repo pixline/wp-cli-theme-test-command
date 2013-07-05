@@ -89,10 +89,9 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	 * @param array $assoc_args  Incoming args associative array
 	 */
 	private function maybe_reinstall( $assoc_args ){
-		print_r( $assoc_args );
 		# check info
 		if (
-			isset( $assoc_args['blogurl'] ) &&
+			isset( $assoc_args['url'] ) &&
 			isset( $assoc_args['title'] ) &&
 			isset( $assoc_args['admin_name'] ) &&
 			isset( $assoc_args['admin_email'] ) &&
@@ -103,7 +102,7 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 				WP_CLI::launch( 'wp db reset --yes' );
 				WP_CLI::launch(
 				'wp core install '
-				.' --url='.$assoc_args['blogurl']
+				.' --url='.$assoc_args['url']
 				.' --title='.$assoc_args['title']
 				.' --admin_name='.$assoc_args['admin_name']
 				.' --admin_email='.$assoc_args['admin_email']
@@ -165,7 +164,7 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	* Install and setup themes unit test options, data and plugins
 	* 
 	* @when after_wp_load
-	* @synopsis <theme|plugin|core> [--data=<wxr>] [--menus] [--reset] --blogurl=<blogurl> --title=<title> [--admin_name=<admin_name>] --admin_email=<admin_email> --admin_password=<admin_password>
+	* @synopsis <theme|plugin|core> [--data=<wxr>] [--menus] [--reset] --url=<url> --title=<title> [--admin_name=<admin_name>] --admin_email=<admin_email> --admin_password=<admin_password>
 	*/
 	public function install( $args, $assoc_args = array() ){
 		list( $target ) = $args;
