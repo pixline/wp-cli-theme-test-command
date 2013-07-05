@@ -15,6 +15,6 @@ before_script:
     - composer install --dev --no-interaction --prefer-source
     - composer config repositories.wp-cli vcs https://github.com/wp-cli/wp-cli
     - composer require wp-cli/wp-cli=dev-master --no-interaction --prefer-source
-    - ls ~/.composer
+    - cat /home/travis/.composer/composer.json
 
-script: wp --version
+script: /home/travis/.composer/bin/wp
