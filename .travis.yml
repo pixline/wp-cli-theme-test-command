@@ -15,7 +15,7 @@ before_install:
     - composer require wp-cli/wp-cli=dev-master
     - composer config repositories.theme_test vcs https://github.com/pixline/wp-cli-theme-test-command
     - composer require pixline/wp-cli-theme-test-command=dev-master
-    - $HOME/.composer/bin/wp
+    - alias wp="$HOME/.composer/bin/wp"
 
 before_script:
 
