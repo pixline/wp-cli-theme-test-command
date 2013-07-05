@@ -3,7 +3,7 @@
   "type": "command",
   "description": "Install and run WordPress unit tests.",
   "keywords": ["wp-cli","unit-tests"],
-  "homepage": "https://github.com/pixline/wp-cli-test-command",
+  "homepage": "https://github.com/pixline/wp-cli-theme-test-command",
   "license": "GPL2",
   "authors": [
     {
