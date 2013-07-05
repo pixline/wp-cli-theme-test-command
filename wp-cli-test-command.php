@@ -161,6 +161,7 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	public function install( $args, $assoc_args = array() ){
 		list( $target ) = $args;
 		print_r( $args );
+		var_dump( $target );
 	}
 
 
