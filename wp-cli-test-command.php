@@ -222,4 +222,4 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 
 }
 
-WP_CLI::add_command( 'tester', 'Unit_Test_Cmd' );
+WP_CLI::add_command( 'test', 'Unit_Test_Cmd' );
