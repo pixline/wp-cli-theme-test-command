@@ -31,14 +31,19 @@ Composer installation as referenced in [wp-cli Community Packages setup](https:/
 ```bash
 cd ~/.composer
 ```
+2) If ```wp --version```  is < 0.11.0, upgrade ```composer.json`` wp-cli reference to the development version
 
-2) Add the repository containing the desired package:
+```
+        "wp-cli/wp-cli": "dev-master",
+```
+
+3) Add the repository containing the desired package:
 
 ```bash
 composer config repositories.theme_test vcs https://github.com/pixline/wp-cli-test-command
 ```
 
-3) Install the package:
+4) Install the package:
 
 ```bash
 composer require pixline/wp-cli-test-command=dev-master
