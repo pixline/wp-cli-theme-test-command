@@ -7,16 +7,19 @@ env:
     - WP_VERSION=master WP_MULTISITE=0
 
 before_install:
-    # set up database
-    - mysql -e 'CREATE DATABASE wordpress_test;' -uroot
-    - set -ex
-    - curl http://wp-cli.org/installer.sh | bash
-    - cd $HOME/.composer
-    - composer require wp-cli/wp-cli=dev-master
-    - composer config repositories.theme_test vcs https://github.com/pixline/wp-cli-theme-test-command
-    - composer require pixline/wp-cli-theme-test-command=dev-master
-    - alias wp="$HOME/.composer/bin/wp"
 
 before_script:
+    - set -ex
+    # set up WP install
+    - WP_CORE_DIR=/tmp/wordpress/
+    - mkdir -p $WP_CORE_DIR
+    # set up database
+    - mysql -e 'CREATE DATABASE wordpress_test;' -uroot
+    # set up wp-cli
+    - curl http://wp-cli.org/installer.sh | bash
+    - cd $HOME/.composer
+    - composer config repositories.theme_test vcs https://github.com/pixline/wp-cli-theme-test-command
+    - composer require pixline/wp-cli-theme-test-command=dev-master
+    - bash $HOME/build/travisci.sh
 
-script: 
+script: phpunit

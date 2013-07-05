@@ -14,7 +14,8 @@
     }
   ],
   "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.0",
+        "wp-cli/wp-cli": "dev-master"
     },
     "autoload": {
       "files": [ "wp-cli-theme-test-command.php" ]
