@@ -168,10 +168,13 @@ class Unit_Test_Cmd extends WP_CLI_Command{
 	*/
 	public function install( $args, $assoc_args = array() ){
 		list( $target ) = $args;
-		var_dump( $target ); die();
+
 		switch ( $target ):
-			case 'theme':
+			case 'reset':
 				$this->maybe_reinstall( $assoc_args );
+			break;
+
+			case 'theme':
 				$this->manage_plugins(); // plugin check and activation
 				$this->import_test_data( $assoc_args ); // test data download and import
 				$this->update_test_options(); // blog option update
