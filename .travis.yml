@@ -18,6 +18,5 @@ before_script:
     - composer install --dev --no-interaction --prefer-source
     - composer require wp-cli/wp-cli=dev-master --no-interaction --prefer-source
     - composer require d11wtq/boris=@stable --no-interaction --prefer-source
-    - composer require pixline/wp-cli-theme-test-command=dev-master --no-interaction --prefer-source
 
-script: phpunit
+script: wp --version
