@@ -40,11 +40,11 @@ composer require wp-cli/wp-cli=dev-master
 3) Add the repository containing the desired package:
 
 ```bash
-composer config repositories.theme_test vcs https://github.com/pixline/wp-cli-test-command
+composer config repositories.theme_test vcs https://github.com/pixline/wp-cli-theme-test-command
 ```
 
 4) Install the package:
 
 ```bash
-composer require pixline/wp-cli-test-command=dev-master
+composer require pixline/wp-cli-theme-test-command=dev-master
 ```
