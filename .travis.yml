@@ -16,7 +16,7 @@ before_script:
     # set up database
     - mysql -e 'CREATE DATABASE wordpress_test;' -uroot
     # set up wp-cli
-    - curl http://wp-cli.org/installer.sh | bash
+    - export VERSION="dev-master" && curl http://wp-cli.org/installer.sh | bash
     - cd $HOME/.composer
     - composer config repositories.theme_test vcs https://github.com/pixline/wp-cli-theme-test-command
     - composer require pixline/wp-cli-theme-test-command=dev-master
