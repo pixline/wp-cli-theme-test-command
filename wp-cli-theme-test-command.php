@@ -178,7 +178,7 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 	* --menus 								Create custom nav menus (full page list, short random page list)
 	* 
 	* @when after_wp_load
-	* @synopsis [--data=<data>] [--menus] [--reset] [--url=<url>] [--title=<title>] [--admin_name=<admin_name>] [--admin_email=<admin_email>] [--admin_password=<admin_password>]
+	* @synopsis [--data=<data>] [--url=<url>] [--title=<title>] [--admin_name=<admin_name>] [--admin_email=<admin_email>] [--admin_password=<admin_password>] [--menus] [--reset] 
 	*/
 	public function install( $args = null, $assoc_args = array() ){
 
