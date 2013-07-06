@@ -2,8 +2,8 @@
 /**
  * Install and run WordPress unit-tests
  *
- * @author pixline
- * @version 0.2.2
+ * @author pixline <pixline@gmail.com>
+ * @version 0.4.0
  * @when after_wp_load
  * @synopsis <action>
  */
@@ -85,6 +85,7 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 
 	/**
 	 * Check plugin status, install and activate as needed
+	 * @since 0.2
 	 */
 	private function manage_plugins(){
 		$plugins = array(
@@ -115,10 +116,11 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 	 * Download and install theme unit test datafile
 	 * 
 	 * @param array $assoc_args  Incoming args associative array
+	 * @since 0.2
 	 */
-	private function import_test_data( $assoc_args ){
-		$dataurl = 'https://wpcom-themes.svn.automattic.com/demo/theme-unit-test-data.xml';
-		$download_url = isset( $assoc_args['data'] ) ? $assoc_args['data'] : $dataurl;
+	private function import_test_data( $alt_data = null ){
+		$std_data = 'https://wpcom-themes.svn.automattic.com/demo/theme-unit-test-data.xml';
+		$download_url = isset( $alt_data ) ? $alt_data : $std_data;
 		$silent  = WP_CLI::get_config( 'quiet' ) ? '--silent ' : '';
 		$cmdline = "curl -f $silent $download_url -o /tmp/theme-unit-test-data.xml";
 
@@ -132,18 +134,12 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 	* 
 	* Usage: wp theme-test setup [options]
 	* 
-	* --data=<url|path>				URL/path to WXR data file
-	*
-	* --reset 								Reinstall a clean WordPress instance
-	* 	--title=""						Blog Title  
-	* 	--admin_name=""				Admin username
-	* 	--admin_email=""			Admin email address
-	* 	--admin_password=""		Admin password
-	* 
+	* --data=<url|path>				URL/path to WXR data file 
 	* --menus 								Create custom nav menus (full page list, short random page list)
 	* 
 	* @when after_wp_load
 	* @synopsis [--data=<data>] [--menus] 
+	* @since 0.2
 	*/
 	public function install( $args = null, $assoc_args = array() ){
 
@@ -151,7 +147,7 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 		$this->manage_plugins(); 	
 
 		# download and import test data
-		$this->import_test_data( $assoc_args );
+		$this->import_test_data( $assoc_args['data'] );
 
 		# update blog options
 		$this->update_test_options();
