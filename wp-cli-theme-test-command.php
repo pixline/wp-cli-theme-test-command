@@ -87,28 +87,53 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 	 * Check plugin status, install and activate as needed
 	 * @since 0.2
 	 */
-	private function manage_plugins(){
-		$plugins = array(
-			'debogger', 
-			'debug-bar', 
-			'developer', 
-			'log-deprecated-notices', 
-			'monster-widget', 
+	private function manage_plugins( $is_vip = false ){
+		$std_plugin = array(
+			'debug-bar',
+			'debug-bar-console',
+			'debug-bar-cron',
+			'debug-bar-extender',
+			'developer',
+			'log-deprecated-notices',
+			'log-viewer',
+			'monster-widget',
+			'piglatin',
 			'regenerate-thumbnails',
-			'theme-check', 
-			'wordpress-beta-tester', 
+			'rewrite-rules-inspector',
+			'rtl-tester',
+			'simply-show-ids',
+			'theme-check',
+			'theme-test-drive',
+			'user-switching',
+			'wordpress-beta-tester',
 			'wordpress-importer',
 		);
 
-		foreach ( $plugins as $plugin ):
+		$vip_plugin = array(			
+			'beta-tester',
+			'grunion-contact-form',
+			'jetpack',
+			'mp6',
+			'polldaddy',
+			'vip-scanner',
+		);
+
+		if ( true == $is_vip ):
+			$plugin_list = array_merge( $std_plugin, $vip_plugin );
+		else :
+			$plugin_list = $std_plugin;
+		endif;
+
+		foreach ( $plugin_list as $plugin ) :
 			$res = WP_CLI::launch( 'wp plugin status '.$plugin, false );
-		if ( isset( $res) && $res === 1 ){
-			# install and activate plugin
-			WP_CLI::launch( 'wp plugin install '.$plugin.' --activate' );
-		} else {
-			# activate plugin
-			WP_CLI::launch( 'wp plugin activate '.$plugin );
-		}
+			
+			if ( isset( $res ) && $res === 1 ) {
+				# install and activate plugin
+				WP_CLI::launch( 'wp plugin install '.$plugin.' --activate' );
+			} else {
+				# activate plugin
+				WP_CLI::launch( 'wp plugin activate '.$plugin );
+			}
 		endforeach;
 	}
 
@@ -138,13 +163,14 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 	* --menus 								Create custom nav menus (full page list, short random page list)
 	* 
 	* @when after_wp_load
-	* @synopsis [--data=<data>] [--menus] 
+	* @synopsis [--data=<data>] [--menus] [--vip]
 	* @since 0.2
+	* @todo check wp-config.php for debug constants
 	*/
 	public function install( $args = null, $assoc_args = array() ){
 
 		# plugin check, download and activation
-		$this->manage_plugins(); 	
+		$this->manage_plugins( $assoc_args['vip'] );
 
 		# download and import test data
 		$this->import_test_data( $assoc_args['data'] );
