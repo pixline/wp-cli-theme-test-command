@@ -11,10 +11,9 @@ http://codex.wordpress.org/Theme_Unit_Test
 ```
 wp theme-test setup [options]
 
-[--data=<url|path>]     URL/path to WXR data file
-
-[--menus]               Add (optional) custom nav menu
-                        (default dataset have them already)
+[--data=<data>]   URL/path to WXR data file
+[--vip]           Install and activate wpcom VIP required plugins 
+[--menus]         Add (optional) custom nav menus
 ```
 
 It can be used to reset and reinstall WP test site programmatically, as in [this simple script](https://gist.github.com/pixline/5937737)
@@ -22,7 +21,7 @@ It can be used to reset and reinstall WP test site programmatically, as in [this
 
 ## Installation
 
-### Basic method
+### Default install: wp-cli + composer
 
 Composer installation as referenced in [wp-cli Community Packages setup](https://github.com/wp-cli/wp-cli/wiki/Community-Packages).
 
@@ -46,7 +45,7 @@ composer config repositories.theme_test vcs https://github.com/pixline/wp-cli-th
 composer require pixline/wp-cli-theme-test-command=dev-master
 ```
 
-### Alternative (git) method
+### Alternative install: git + composer method
 
 ```bash
 git clone https://github.com/pixline/wp-cli-theme-test-command
