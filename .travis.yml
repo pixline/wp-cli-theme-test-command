@@ -4,7 +4,7 @@ php:
     - 5.5
 
 env:
-    - WP_VERSION=3.5.2 WP_MULTISITE=<0></0>
+    - WP_VERSION=3.5.2 WP_MULTISITE=0
 
 before_install:
     - set -ex
