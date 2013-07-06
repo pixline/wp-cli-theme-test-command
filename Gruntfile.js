@@ -8,7 +8,7 @@ module.exports = function (grunt) {
 
     phpcs: {
       options: {
-        bin: 'phpcs -p -s',
+        bin: 'phpcs -p -s -v',
         standard: 'WordPress'
       },
       main: {

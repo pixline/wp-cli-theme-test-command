@@ -8,17 +8,12 @@ env:
 
 before_install:
     - composer install
+    # set up wp-cli
     - export VERSION="dev-master"
     - curl http://wp-cli.org/installer.sh | bash
     - cd $HOME/.composer
     - composer config repositories.theme_test vcs $TRAVIS_BUILD_DIR
-    - cd $TRAVIS_BUILD_DIR
-    - npm install
-    - pear install PHP_CodeSniffer
-    - pear channel-discover pear.phpmd.org
-    - pear channel-discover pear.pdepend.org
-    - pear install --alldeps phpmd/PHP_PMD
-    - git clone git://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git $(pear config-get php_dir)/PHP/CodeSniffer/Standards/WordPress
+    - composer update
 
 before_script:
     - set -ex
@@ -27,7 +22,9 @@ before_script:
     - mkdir -p $WP_CORE_DIR
     # set up database
     - mysql -e 'CREATE DATABASE wordpress_test;' -uroot
-    - bash $TRAVIS_BUILD_DIR/build/travisci.sh
-    # set up wp-cli
+    - alias wp="$HOME/.composer/bin/wp"
+    - wp core download --version=$WP_VERSION --path=/tmp/wordpress
+    - wp core install --url=http://localhost --title="WP" --admin_name=test --admin_email=test@example.org --admin_password=test
+    - wp theme-test install --menus
 
-script: phpunit
+script: wp
