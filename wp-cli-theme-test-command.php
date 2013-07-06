@@ -109,13 +109,13 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 			'wordpress-importer',
 		);
 
-		$vip_plugin = array(			
-			'beta-tester',
+		$vip_plugin = array(
 			'grunion-contact-form',
 			'jetpack',
 			'mp6',
 			'polldaddy',
 			'vip-scanner',
+			'wordpress-beta-tester',
 		);
 
 		if ( true == $is_vip ):
@@ -128,8 +128,11 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 			$res = WP_CLI::launch( 'wp plugin status '.$plugin, false );
 			
 			if ( isset( $res ) && $res === 1 ) {
+				# do not activate piglatin (yet)
+				$cmdflag = ( $plugin === 'piglatin' ) ? '' : ' --activate';
+
 				# install and activate plugin
-				WP_CLI::launch( 'wp plugin install '.$plugin.' --activate' );
+				WP_CLI::launch( 'wp plugin install ' . $plugin . $cmdflag );
 			} else {
 				# activate plugin
 				WP_CLI::launch( 'wp plugin activate '.$plugin );
