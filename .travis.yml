@@ -20,10 +20,11 @@ before_install:
 before_script:
     - cd $TRAVIS_BUILD_DIR
     - composer install --dev --no-interaction --prefer-source
-    - $TRAVIS_BUILD_DIR/vendor/bin/wp --info
-    - $TRAVIS_BUILD_DIR/vendor/bin/wp core download --version=$WP_VERSION --path=$WP_CORE_DIR
-    - $TRAVIS_BUILD_DIR/vendor/bin/wp core config --dbname=wordpress_test --dbuser=root  --path=$WP_CORE_DIR
-    - $TRAVIS_BUILD_DIR/vendor/bin/wp core install --url=http://localhost --title="WP" --admin_name=test --admin_email=test@example.org --admin_password=test --path=$WP_CORE_DIR
-    - $TRAVIS_BUILD_DIR/vendor/bin/wp theme-test install --menus --path=$WP_CORE_DIR
+    - alias wp="$TRAVIS_BUILD_DIR/vendor/bin/wp"
+    - wp --info
+    - wp core download --version=$WP_VERSION --path=$WP_CORE_DIR
+    - wp core config --dbname=wordpress_test --dbuser=root  --path=$WP_CORE_DIR
+    - wp core install --url=http://localhost --title="WP" --admin_name=test --admin_email=test@example.org --admin_password=test --path=$WP_CORE_DIR
+    - wp theme-test install --menus --path=$WP_CORE_DIR
 
 script: exit 0
