@@ -14,7 +14,7 @@ before_install:
     - curl http://wp-cli.org/installer.sh | bash
     - cd $HOME/.composer
     - php composer.phar config repositories.theme_test vcs $TRAVIS_BUILD_DIR
-    - php composer.phar update
+    - php composer.phar require pixline/wp-cli-theme-test-command
 
 before_script:
     # set up WP install
@@ -26,5 +26,6 @@ before_script:
     - $HOME/.composer/bin/wp core config --dbname=wordpress_test --dbuser=root  --path=$WP_CORE_DIR
     - $HOME/.composer/bin/wp core install --url=http://localhost --title="WP" --admin_name=test --admin_email=test@example.org --admin_password=test --path=$WP_CORE_DIR
     # $HOME/.composer/bin/wp theme-test install --menus --path=$WP_CORE_DIR
+    - $HOME/.composer/bin/wp --info
 
-script: $HOME/.composer/bin/wp help
+script: exit 1
