@@ -7,6 +7,13 @@ env:
     - WP_VERSION=master WP_MULTISITE=0
 
 before_install:
+    - composer install
+    - export VERSION="dev-master"
+    - curl http://wp-cli.org/installer.sh | bash
+    - cd $HOME/.composer
+    - composer config repositories.theme_test vcs $TRAVIS_BUILD_DIR/pixline/wp-cli-theme-test-command
+    - cd $TRAVIS_BUILD_DIR
+    - npm install
 
 before_script:
     - set -ex
@@ -15,13 +22,7 @@ before_script:
     - mkdir -p $WP_CORE_DIR
     # set up database
     - mysql -e 'CREATE DATABASE wordpress_test;' -uroot
+    - bash $TRAVIS_BUILD_DIR/pixline/wp-cli-theme-test-command/build/travisci.sh
     # set up wp-cli
-    - composer install
-    - export VERSION="dev-master" && curl http://wp-cli.org/installer.sh | bash
-    - ls -a $HOME
-    - cd $HOME/.composer
-    - composer config repositories.theme_test vcs $HOME/pixline/wp-cli-theme-test-command
-    - composer require pixline/wp-cli-theme-test-command=dev-master
-    - bash $HOME/pixline/wp-cli-theme-test-command/build/travisci.sh
 
 script: phpunit
