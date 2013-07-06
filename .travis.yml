@@ -11,7 +11,7 @@ before_install:
     - export VERSION="dev-master"
     - curl http://wp-cli.org/installer.sh | bash
     - cd $HOME/.composer
-    - composer config repositories.theme_test vcs $TRAVIS_BUILD_DIR/pixline/wp-cli-theme-test-command
+    - composer config repositories.theme_test vcs $TRAVIS_BUILD_DIR
     - cd $TRAVIS_BUILD_DIR
     - npm install
 
@@ -22,7 +22,7 @@ before_script:
     - mkdir -p $WP_CORE_DIR
     # set up database
     - mysql -e 'CREATE DATABASE wordpress_test;' -uroot
-    - bash $TRAVIS_BUILD_DIR/pixline/wp-cli-theme-test-command/build/travisci.sh
+    - bash $TRAVIS_BUILD_DIR/build/travisci.sh
     # set up wp-cli
 
 script: phpunit
