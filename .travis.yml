@@ -12,6 +12,7 @@ before_install:
     # set up wp-cli
     - export VERSION="dev-master"
     - export WP_CORE_DIR="/tmp/wordpress"
+    - mkdir WP_CORE_DIR
     - mysql -e 'CREATE DATABASE wordpress_test;' -uroot
     # - php composer.phar config repositories.theme_test vcs $TRAVIS_BUILD_DIR
     # - php composer.phar update --dev --no-interaction --prefer-source
