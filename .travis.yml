@@ -4,13 +4,13 @@ php:
     - 5.5
 
 env:
-    - WP_VERSION=3.5.2 WP_MULTISITE=0
+    - WP_VERSION=3.5.2 WP_MULTISITE=0 VERSION="dev-master"
 
 before_install:
     - set -ex
     # - composer install
     # set up wp-cli
-    - export VERSION="dev-master"
+    #- export VERSION="dev-master"
     - curl http://wp-cli.org/installer.sh | bash
     - cd $HOME/.wp-cli
     - php composer.phar update
