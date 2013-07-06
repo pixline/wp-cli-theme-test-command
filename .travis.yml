@@ -17,8 +17,8 @@ before_install:
     - cd $HOME/.wp-cli
     - php composer.phar install --dev --no-interaction --prefer-source
     - php composer.phar config repositories.theme_test vcs $TRAVIS_BUILD_DIR
-    - php composer.phar update --dev --no-interaction --prefer-source
-    # - php composer.phar require pixline/wp-cli-theme-test-command=dev-$TRAVIS_BRANCH
+    # - php composer.phar update --dev --no-interaction --prefer-source
+    - php composer.phar require pixline/wp-cli-theme-test-command=dev-$TRAVIS_BRANCH
 
 before_script:
     - $HOME/.wp-cli/bin/wp --info
