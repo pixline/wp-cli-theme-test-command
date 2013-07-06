@@ -19,7 +19,7 @@ before_install:
 
 before_script:
     - cd $TRAVIS_BUILD_DIR
-    - php composer.phar install --dev --no-interaction --prefer-source
+    - composer install --dev --no-interaction --prefer-source
     - $TRAVIS_BUILD_DIR/vendor/bin/wp --info
     - $TRAVIS_BUILD_DIR/vendor/bin/wp core download --version=$WP_VERSION --path=$WP_CORE_DIR
     - $TRAVIS_BUILD_DIR/vendor/bin/wp core config --dbname=wordpress_test --dbuser=root  --path=$WP_CORE_DIR
