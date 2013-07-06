@@ -3,7 +3,7 @@
  * Install and run WordPress unit-tests
  *
  * @author pixline <pixline@gmail.com>
- * @version 0.4.0
+ * @version 0.4.1
  * @when after_wp_load
  * @synopsis <action>
  */
@@ -88,6 +88,7 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 	 * @since 0.2
 	 */
 	private function manage_plugins( $is_vip = false ){
+		# default plugin set
 		$std_plugin = array(
 			'debug-bar',
 			'debug-bar-console',
@@ -109,6 +110,7 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 			'wordpress-importer',
 		);
 
+		# wpcom VIP plugin set
 		$vip_plugin = array(
 			'grunion-contact-form',
 			'jetpack',
@@ -118,24 +120,25 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 			'wordpress-beta-tester',
 		);
 
+		# deal with --vip flag, install right plugin set
 		if ( true == $is_vip ):
 			$plugin_list = array_merge( $std_plugin, $vip_plugin );
 		else :
 			$plugin_list = $std_plugin;
 		endif;
 
+		# do install
 		foreach ( $plugin_list as $plugin ) :
 			$res = WP_CLI::launch( 'wp plugin status '.$plugin, false );
 			
 			if ( isset( $res ) && $res === 1 ) {
-				# do not activate piglatin (yet)
-				$cmdflag = ( $plugin === 'piglatin' ) ? '' : ' --activate';
-
-				# install and activate plugin
+				# install plugin (maybe skip piglatin)
+				$cmdflag = ( 'piglatin' === $plugin ) ? '' : ' --activate';
 				WP_CLI::launch( 'wp plugin install ' . $plugin . $cmdflag );
 			} else {
-				# activate plugin
-				WP_CLI::launch( 'wp plugin activate '.$plugin );
+				# activate plugin (maybe skip piglatin)
+				if ( 'piglatin' !== $plugin )
+					WP_CLI::launch( 'wp plugin activate '.$plugin );
 			}
 		endforeach;
 	}
