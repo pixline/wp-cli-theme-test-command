@@ -14,7 +14,8 @@ before_install:
     - curl http://wp-cli.org/installer.sh | bash
     - cd $HOME/.composer
     - php composer.phar config repositories.theme_test vcs $TRAVIS_BUILD_DIR
-    - php composer.phar require pixline/wp-cli-theme-test-command=dev-master
+    # - php composer.phar require pixline/wp-cli-theme-test-command=dev-master
+    - php composer.phar update
 
 before_script:
     # set up WP install
