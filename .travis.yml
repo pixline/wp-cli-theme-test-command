@@ -7,24 +7,23 @@ env:
     - WP_VERSION=master WP_MULTISITE=0
 
 before_install:
+    - set -ex
     - composer install
     # set up wp-cli
     - export VERSION="dev-master"
     - curl http://wp-cli.org/installer.sh | bash
     - cd $HOME/.composer
-    - composer config repositories.theme_test vcs $TRAVIS_BUILD_DIR
-    - composer update
+    - php composer.phar config repositories.theme_test vcs $TRAVIS_BUILD_DIR
+    - php composer.phar update
 
 before_script:
-    - set -ex
     # set up WP install
     - WP_CORE_DIR=/tmp/wordpress/
     - mkdir -p $WP_CORE_DIR
     # set up database
     - mysql -e 'CREATE DATABASE wordpress_test;' -uroot
-    - alias wp="$HOME/.composer/bin/wp"
-    - wp core download --version=$WP_VERSION --path=/tmp/wordpress
-    - wp core install --url=http://localhost --title="WP" --admin_name=test --admin_email=test@example.org --admin_password=test
-    - wp theme-test install --menus
+    - $HOME/.composer/bin/wp core download --version=$WP_VERSION --path=/tmp/wordpress
+    - $HOME/.composer/bin/wp core install --url=http://localhost --title="WP" --admin_name=test --admin_email=test@example.org --admin_password=test
+    - $HOME/.composer/bin/wp theme-test install --menus
 
-script: wp
+script: $HOME/.composer/bin/wp
