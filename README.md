@@ -53,6 +53,6 @@ cd wp-cli-theme-test-command
 composer install --dev --prefer-source
 
 ## append this line to .bash_profile or .zshrc.local
-export PATH="path/to/wp-cli-theme-test-command/:$PATH"
+export PATH="/full/path/to/wp-cli-theme-test-command/vendor/bin:$PATH"
 ```
 
