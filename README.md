@@ -1,5 +1,7 @@
 # wp-cli theme-test command
 
+[![Build Status](https://travis-ci.org/pixline/wp-cli-theme-test-command.png?branch=master)](https://travis-ci.org/pixline/wp-cli-theme-test-command)
+
 Install and configure Theme "unit tests" (sample data, required plugins and options) with wp-cli
 
 http://codex.wordpress.org/Theme_Unit_Test
