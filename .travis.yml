@@ -25,6 +25,6 @@ before_script:
     - $HOME/.composer/bin/wp core download --version=$WP_VERSION --path=$WP_CORE_DIR
     - $HOME/.composer/bin/wp core config --dbname=wordpress_test --dbuser=root  --path=$WP_CORE_DIR
     - $HOME/.composer/bin/wp core install --url=http://localhost --title="WP" --admin_name=test --admin_email=test@example.org --admin_password=test --path=$WP_CORE_DIR
-    - $HOME/.composer/bin/wp theme-test install --menus --path=$WP_CORE_DIR
+    # $HOME/.composer/bin/wp theme-test install --menus --path=$WP_CORE_DIR
 
-script: $HOME/.composer/bin/wp
+script: $HOME/.composer/bin/wp help
