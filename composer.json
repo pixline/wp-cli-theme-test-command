@@ -1,4 +1,5 @@
 {
+  "minimum-stability": "dev",
   "name": "pixline/wp-cli-theme-test-command",
   "type": "command",
   "description": "Install and configure WordPress theme unit tests",

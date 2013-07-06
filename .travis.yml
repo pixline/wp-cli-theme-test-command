@@ -12,18 +12,17 @@ before_install:
     # set up wp-cli
     #- export VERSION="dev-master"
     - curl http://wp-cli.org/installer.sh | bash
-    - cd $HOME/.wp-cli
-    - php composer.phar update
+    - cd $HOME/.wp-cli    
+    - php composer.phar install --dev --no-interaction --prefer-source
     - php composer.phar config repositories.theme_test vcs $TRAVIS_BUILD_DIR
-    - php composer.phar require pixline/wp-cli-theme-test-command=dev-master
-    - cat composer.json
-    # - php composer.phar require theme_test
+    - php composer.phar update --dev --prefer-source
+    - php composer.phar require pixline/wp-cli-theme-test-command=dev-$TRAVIS_BRANCH
 
 before_script:
+    - $HOME/.composer/bin/wp --info
     - $HOME/.composer/bin/wp core download --version=$WP_VERSION --path=$WP_CORE_DIR
     - $HOME/.composer/bin/wp core config --dbname=wordpress_test --dbuser=root  --path=$WP_CORE_DIR
     - $HOME/.composer/bin/wp core install --url=http://localhost --title="WP" --admin_name=test --admin_email=test@example.org --admin_password=test --path=$WP_CORE_DIR
     - $HOME/.composer/bin/wp theme-test install --menus --path=$WP_CORE_DIR
-    - $HOME/.composer/bin/wp --info
 
 script: exit 0
