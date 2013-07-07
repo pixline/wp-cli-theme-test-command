@@ -3,7 +3,7 @@
  * Install and run WordPress unit-tests
  *
  * @author pixline <pixline@gmail.com>
- * @version 0.4.1
+ * @version 0.4.2
  * @when after_wp_load
  * @synopsis <action>
  */
@@ -114,6 +114,7 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 			'theme-test-drive',
 			'user-switching',
 			'wordpress-importer',
+			'wordpress-beta-tester',
 		);
 
 		# wpcom VIP plugin set
@@ -123,12 +124,21 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 			'mp6',
 			'polldaddy',
 			'vip-scanner',
-			'wordpress-beta-tester',
 		);
-
+		
+		# plugin developers bundle
 		$dev_plugin = array(
 			'log-deprecated-notices',
-			'wordpress-beta-tester',
+		);
+		
+		# debug plugin bundle (author's choice)
+		# please file a pull request to include/exclude plugins
+		$debug_plugin = array(
+			'debug-bar-actions-and-filters-addon',
+			'debug-bar-constants',
+			'debug-my-plugin',
+			'debug-objects',
+			'uploadplus',
 		);
 
 		switch ( $option ):
@@ -140,8 +150,12 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 				$plugin_list = array_merge( $std_plugin, $dev_plugin );
 				break;
 
+			case 'debug':
+				$plugin_list = array_merge( $std_plugin, $debug_plugin );
+				break;
+
 			case 'all':
-				$plugin_list = array_merge( $std_plugin, $vip_plugin, $dev_plugin );
+				$plugin_list = array_merge( $std_plugin, $vip_plugin, $dev_plugin, $debug_plugin );
 
 			case 'theme':
 			default:
@@ -149,17 +163,18 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 				break;
 		endswitch;
 
+		$skip_activation = array( 'piglatin', 'wordpress-beta-tester' );
 		# do install
 		foreach ( $plugin_list as $plugin ) :
 			$res = WP_CLI::launch( 'wp plugin status '.$plugin, false );
 			
 			if ( isset( $res ) && $res === 1 ) {
 				# install plugin (maybe skip piglatin)
-				$cmdflag = ( 'piglatin' === $plugin ) ? '' : ' --activate';
+				$cmdflag = ( in_array( $plugin, $skip_activation ) ) ? '' : ' --activate';
 				WP_CLI::launch( 'wp plugin install ' . $plugin . $cmdflag );
 			} else {
 				# activate plugin (maybe skip piglatin)
-				if ( 'piglatin' !== $plugin )
+				if ( false === in_array( $plugin, $skip_activation ) )
 					WP_CLI::launch( 'wp plugin activate '.$plugin );
 			}
 		endforeach;
@@ -207,8 +222,8 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 	* 
 	* Usage: wp theme-test setup [options]
 	* 
-	* --data=<url|path>				URL/path to WXR data file 
-	* --menus 								Create custom nav menus (full page list, short random page list)
+	* --data=<url|path>	URL/path to WXR data file 
+	* --menus	Create custom nav menus (full page list, short random page list)
 	* 
 	* @when after_wp_load
 	* @synopsis [--data=<data>] [--plugin=<plugin>] [--option=<option>] [--menus] 

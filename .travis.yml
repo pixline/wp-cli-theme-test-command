@@ -27,6 +27,6 @@ before_script:
     - wp core download --version=$WP_VERSION
     - wp core config --dbname=wordpress_test --dbuser=root
     - wp core install --url=http://localhost --title="WP" --admin_email=test@example.org --admin_password=test
-    - wp theme-test install --menus
+    - wp theme-test install --data=wptest --plugin=debug --menus
 
 script: exit 0
