@@ -125,10 +125,22 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 			'vip-scanner',
 			'wordpress-beta-tester',
 		);
-
+		
+		# plugin developers bundle
 		$dev_plugin = array(
 			'log-deprecated-notices',
 			'wordpress-beta-tester',
+		);
+		
+		# debug plugin bundle (author's choice)
+		# please file a pull request to include/exclude plugins
+		$debug_plugin = array(
+			'debug-bar-actions-and-filters-addon',
+			'debug-bar-constants',
+			'debug-my-plugin',
+			'debug-objects',
+			'uploadplus',
+			'wordpress-beta-tester'
 		);
 
 		switch ( $option ):
@@ -140,8 +152,12 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 				$plugin_list = array_merge( $std_plugin, $dev_plugin );
 				break;
 
+			case 'debug':
+				$plugin_list = array_merge( $std_plugin, $debug_plugin );
+				break;
+
 			case 'all':
-				$plugin_list = array_merge( $std_plugin, $vip_plugin, $dev_plugin );
+				$plugin_list = array_merge( $std_plugin, $vip_plugin, $dev_plugin, $debug_plugin);
 
 			case 'theme':
 			default:
@@ -207,8 +223,8 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 	* 
 	* Usage: wp theme-test setup [options]
 	* 
-	* --data=<url|path>				URL/path to WXR data file 
-	* --menus 								Create custom nav menus (full page list, short random page list)
+	* --data=<url|path>	URL/path to WXR data file 
+	* --menus	Create custom nav menus (full page list, short random page list)
 	* 
 	* @when after_wp_load
 	* @synopsis [--data=<data>] [--plugin=<plugin>] [--option=<option>] [--menus] 
