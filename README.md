@@ -11,9 +11,29 @@ http://codex.wordpress.org/Theme_Unit_Test
 ```
 wp theme-test setup [options]
 
-[--data=<data>]   URL/path to WXR data file
-[--vip]           Install and activate wpcom VIP required plugins 
-[--menus]         Add (optional) custom nav menus
+[--data=<data>]      URL/path to custom WXR data file, or built-in:
+
+                    ( unit-test* | wpcom-theme | wpcom-demo | wptest | skip )  
+
+                    'unit-test' = Default Theme Unit Test datafile
+                    'wpcom-theme' = Alternative wpcom datafile (1)
+                    'wpcom-demo' = Alternative wpcom datafile (2)
+                    'wptest' = manovotny/wptest datafile
+
+[--plugin=<plugin>]  Install and activate required plugin set,
+                     as featured in the "developer" WP plugin
+
+                     ( theme* | vip | devel | all | skip )
+                     
+                     'theme' = Default plugin setup
+                     'vip' = Default + wpcom VIP plugin setup
+                     'devel' = Default + developer plugin setup
+                     'all' = Default + VIP + developer
+
+[--option=<option>]  Update blog options
+                    ( default* | skip )
+
+[--menus]            Add (optional) custom nav menus
 ```
 
 It can be used to reset and reinstall WP test site programmatically, as in [this simple script](https://gist.github.com/pixline/5937737)
@@ -54,5 +74,7 @@ composer install --dev --prefer-source
 
 ## append this line to .bash_profile or .zshrc.local
 export PATH="/full/path/to/wp-cli-theme-test-command/vendor/bin:$PATH"
+
+wp theme-test install
 ```
 
