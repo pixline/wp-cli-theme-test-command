@@ -69,13 +69,16 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 	 * 
 	 * @since 0.2
 	 */
-	private function update_test_options(){
+	private function update_test_options( $option = NULL ){
+		if ( 'skip' === $option )
+			return;
+
 		WP_CLI::launch( 'wp option update blogname "WordPress Theme Unit Test Site"' );
-		WP_CLI::launch( 'wp option update posts_per_page 6' );
+		WP_CLI::launch( 'wp option update posts_per_page 5' );
 		WP_CLI::launch( 'wp option update thread_comments 1' );
 		WP_CLI::launch( 'wp option update thread_comments_depth 3' );
 		WP_CLI::launch( 'wp option update page_comments 1' );
-		WP_CLI::launch( 'wp option update comments_per_page 6' );
+		WP_CLI::launch( 'wp option update comments_per_page 5' );
 		WP_CLI::launch( 'wp option update medium_max_w ""' );
 		WP_CLI::launch( 'wp option update medium_max_h ""' );
 		WP_CLI::launch( 'wp option update large_max_w ""' );
@@ -85,9 +88,14 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 
 	/**
 	 * Check plugin status, install and activate as needed
+	 * 
+	 * @param string $option  --plugin value
 	 * @since 0.2
 	 */
-	private function manage_plugins( $is_vip = false ){
+	private function manage_plugins( $option = NULL ){
+		if ( 'skip' === $option )
+			return;
+
 		# default plugin set
 		$std_plugin = array(
 			'debug-bar',
@@ -95,7 +103,6 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 			'debug-bar-cron',
 			'debug-bar-extender',
 			'developer',
-			'log-deprecated-notices',
 			'log-viewer',
 			'monster-widget',
 			'piglatin',
@@ -119,12 +126,28 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 			'wordpress-beta-tester',
 		);
 
-		# deal with --vip flag, install right plugin set
-		if ( true == $is_vip ):
-			$plugin_list = array_merge( $std_plugin, $vip_plugin );
-		else :
-			$plugin_list = $std_plugin;
-		endif;
+		$dev_plugin = array(
+			'log-deprecated-notices',
+			'wordpress-beta-tester',
+		);
+
+		switch ( $option ):
+			case 'vip':
+				$plugin_list = array_merge( $std_plugin, $vip_plugin );
+				break;
+
+			case 'devel':
+				$plugin_list = array_merge( $std_plugin, $dev_plugin );
+				break;
+
+			case 'all':
+				$plugin_list = array_merge( $std_plugin, $vip_plugin, $dev_plugin );
+
+			case 'theme':
+			default:
+				$plugin_list = $std_plugin;
+				break;
+		endswitch;
 
 		# do install
 		foreach ( $plugin_list as $plugin ) :
@@ -145,10 +168,14 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 	/**
 	 * Download and install theme unit test datafile
 	 * 
-	 * @param array $assoc_args  Incoming args associative array
+	 * @param string $option  --data value
 	 * @since 0.2
 	 */
-	private function import_test_data( $option = 'unit-test' ){
+	private function import_test_data( $option = NULL ){
+		if ( 'skip' === $option )
+			return;
+
+		$option = ( NULL === $option ) ? 'unit-test' : $option;
 
 		$datafiles = array(
 			'unit-test' => 'https://wpcom-themes.svn.automattic.com/demo/theme-unit-test-data.xml',
@@ -156,16 +183,14 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 			'wpcom-demo' => 'https://wpcom-themes.svn.automattic.com/demo/demo-data.xml',
 			'wptest' => 'https://raw.github.com/manovotny/wptest/master/wptest.xml',
 		);
-
-		$keys = array_keys( $datafiles );
-
-		if ( 'skip' === $option )
-			return;
+		$keys = array_values( array_keys( $datafiles ) );
 
 		if ( in_array( $option, $keys ) ):
 			$download_url = $datafiles[$option];			
-		else :
+		elseif ( false != $option ):
 			$download_url = $option;
+		else :
+			WP_CLI::error( 'Missing WXR path/URL.' );
 		endif;
 
 		WP_CLI::line( 'WXR data URL: ' . $download_url );
@@ -186,7 +211,7 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 	* --menus 								Create custom nav menus (full page list, short random page list)
 	* 
 	* @when after_wp_load
-	* @synopsis [--data=<data>] [--plugin=<plugin>]  [--menus] 
+	* @synopsis [--data=<data>] [--plugin=<plugin>] [--option=<option>] [--menus] 
 	* @since 0.2
 	* @todo check wp-config.php for debug constants
 	*/
@@ -199,7 +224,7 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 		$this->import_test_data( $assoc_args['data'] );
 
 		# update blog options
-		$this->update_test_options();
+		$this->update_test_options( $assoc_args['option'] );
 
 		# (optional) create custom menus
 		if ( isset( $assoc_args['menus'] ) ):
