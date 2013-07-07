@@ -8,47 +8,61 @@ http://codex.wordpress.org/Theme_Unit_Test
 
 ## Usage
 
+NOTE: This command can't deal (yet?) with global flags like ```--path```, please run it in the WordPress root folder only.
+
 ```
-wp theme-test setup [options]
+wp theme-test install [options]
 
-[--data=<data>]      ( unit-test* | wpcom-theme | wpcom-demo | wptest | skip )  
+Angle brackets groups possible values, default is marked with *
 
-                     URL/path to custom WXR data file, or built-in:
-                    
-                     'unit-test' = Default Theme Unit Test datafile
-                     'wpcom-theme' = Alternative wpcom datafile (1)
-                     'wpcom-demo' = Alternative wpcom datafile (2)
-                     'wptest' = manovotny/wptest datafile
+[--data=< unit-test* | wpcom-theme | wpcom-demo | wptest | skip >]
 
-[--plugin=<plugin>]  ( theme* | vip | devel | all | skip )
+	URL/path to custom WXR data file, or built-in:
 
-                     Install and activate required plugin set,
-                     as proposed in the "developer" WP plugin:
-                    
-                     'theme' = Default plugin setup
-                     'vip' = Default + wpcom VIP plugin setup
-                     'devel' = Default + developer plugin setup
-                     'all' = Default + VIP + developer
+	'unit-test' = Default Theme Unit Test datafile
+	'wpcom-theme' = Alternative wpcom datafile (1)
+	'wpcom-demo' = Alternative wpcom datafile (2)
+	'wptest' = manovotny/wptest datafile
 
-[--option=<option>]  ( default* | skip )
+[--plugin=< theme* | vip | devel | all | skip >]  
 
-                    Update blog options:
-                     - blogname
-                     - posts_per_page
-                     - thread_comments
-                     - thread_comments_depth
-                     - page_comments
-                     - comments_per_page
-                     - medium_max_w
-                     - medium_max_h
-                     - large_max_w
-                     - large_max_h
-                     - permalink_structure
+	Plugin bundle to install. 
+	Bundles are as suggested in the 'developer' plugin,
+	'debug' bundle is an exclusive feature :-) 
 
-[--menus]            Add (optional) custom nav menus
+	'theme' = Default plugin setup
+	'vip' = Default + wpcom VIP plugin setup
+	'devel' = Default + plugin developer setup
+	'debug' = Default + debugger setup
+	'all' = Default + VIP + developer + debugger!
+
+[--option=< default* | skip >]
+
+	Updates blog options to the test default values:
+	- blogname
+	- posts_per_page
+	- thread_comments
+	- thread_comments_depth
+	- page_comments
+	- comments_per_page
+	- medium_max_w
+	- medium_max_h
+	- large_max_w
+	- large_max_h
+	- permalink_structure
+
+[--menus]            Add custom nav menus
 ```
 
-Suggested usage [shell script example](https://gist.github.com/pixline/5937737)
+Can be used to "sandbox" a *local* WordPress install programmatically, i.e. :
+
+```bash
+#!/bin/bash
+
+wp db reset
+wp core install --url=http://localhost --title="WP" --admin_name=test --admin_email=test@example.org --admin_password=test
+wp theme-test install --data=unit-test --plugin=all --menus
+```
 
 
 ## Installation
