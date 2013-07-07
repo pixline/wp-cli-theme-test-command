@@ -46,17 +46,17 @@ Angle brackets groups possible values, default is marked with *
 	'skip' = Do not update options
 	'default' = Updates options to their default test value:
 
-		- blogname 								WordPress Theme Unit Test Site
-		- posts_per_page					5
-		- thread_comments					1
-		- thread_comments_depth		3
-		- page_comments						1
-		- comments_per_page				5
-		- medium_max_w						null
-		- medium_max_h						null
-		- large_max_w							null
-		- large_max_h							null
-		- permalink_structure			/%year%/%monthnum%/%day%/%postname%/
+		- blogname                WordPress Theme Unit Test Site
+		- posts_per_page          5
+		- thread_comments         1
+		- thread_comments_depth   3
+		- page_comments           1
+		- comments_per_page       5
+		- medium_max_w            null
+		- medium_max_h            null
+		- large_max_w             null
+		- large_max_h             null
+		- permalink_structure     /%year%/%monthnum%/%day%/%postname%/
 
 [--menus]            Add custom nav menus
 
