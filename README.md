@@ -11,32 +11,44 @@ http://codex.wordpress.org/Theme_Unit_Test
 ```
 wp theme-test setup [options]
 
-[--data=<data>]      URL/path to custom WXR data file, or built-in:
+[--data=<data>]      ( unit-test* | wpcom-theme | wpcom-demo | wptest | skip )  
 
-                    ( unit-test* | wpcom-theme | wpcom-demo | wptest | skip )  
+                     URL/path to custom WXR data file, or built-in:
+                    
+                     'unit-test' = Default Theme Unit Test datafile
+                     'wpcom-theme' = Alternative wpcom datafile (1)
+                     'wpcom-demo' = Alternative wpcom datafile (2)
+                     'wptest' = manovotny/wptest datafile
 
-                    'unit-test' = Default Theme Unit Test datafile
-                    'wpcom-theme' = Alternative wpcom datafile (1)
-                    'wpcom-demo' = Alternative wpcom datafile (2)
-                    'wptest' = manovotny/wptest datafile
+[--plugin=<plugin>]  ( theme* | vip | devel | all | skip )
 
-[--plugin=<plugin>]  Install and activate required plugin set,
-                     as featured in the "developer" WP plugin
-
-                     ( theme* | vip | devel | all | skip )
-                     
+                     Install and activate required plugin set,
+                     as proposed in the "developer" WP plugin:
+                    
                      'theme' = Default plugin setup
                      'vip' = Default + wpcom VIP plugin setup
                      'devel' = Default + developer plugin setup
                      'all' = Default + VIP + developer
 
-[--option=<option>]  Update blog options
-                    ( default* | skip )
+[--option=<option>]  ( default* | skip )
+
+                    Update blog options:
+                     - blogname
+                     - posts_per_page
+                     - thread_comments
+                     - thread_comments_depth
+                     - page_comments
+                     - comments_per_page
+                     - medium_max_w
+                     - medium_max_h
+                     - large_max_w
+                     - large_max_h
+                     - permalink_structure
 
 [--menus]            Add (optional) custom nav menus
 ```
 
-It can be used to reset and reinstall WP test site programmatically, as in [this simple script](https://gist.github.com/pixline/5937737)
+Suggested usage [shell script example](https://gist.github.com/pixline/5937737)
 
 
 ## Installation
@@ -65,7 +77,7 @@ composer config repositories.theme_test vcs https://github.com/pixline/wp-cli-th
 composer require pixline/wp-cli-theme-test-command=dev-master
 ```
 
-### Alternative install: git + composer method
+### Developer install: git + composer method
 
 ```bash
 git clone https://github.com/pixline/wp-cli-theme-test-command
