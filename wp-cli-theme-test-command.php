@@ -114,6 +114,7 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 			'theme-test-drive',
 			'user-switching',
 			'wordpress-importer',
+			'wordpress-beta-tester',
 		);
 
 		# wpcom VIP plugin set
@@ -123,13 +124,11 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 			'mp6',
 			'polldaddy',
 			'vip-scanner',
-			'wordpress-beta-tester',
 		);
 		
 		# plugin developers bundle
 		$dev_plugin = array(
 			'log-deprecated-notices',
-			'wordpress-beta-tester',
 		);
 		
 		# debug plugin bundle (author's choice)
@@ -140,7 +139,6 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 			'debug-my-plugin',
 			'debug-objects',
 			'uploadplus',
-			'wordpress-beta-tester'
 		);
 
 		switch ( $option ):
