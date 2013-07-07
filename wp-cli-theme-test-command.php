@@ -3,7 +3,7 @@
  * Install and run WordPress unit-tests
  *
  * @author pixline <pixline@gmail.com>
- * @version 0.4.1
+ * @version 0.4.2
  * @when after_wp_load
  * @synopsis <action>
  */
@@ -155,7 +155,7 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 				break;
 
 			case 'all':
-				$plugin_list = array_merge( $std_plugin, $vip_plugin, $dev_plugin, $debug_plugin);
+				$plugin_list = array_merge( $std_plugin, $vip_plugin, $dev_plugin, $debug_plugin );
 
 			case 'theme':
 			default:
