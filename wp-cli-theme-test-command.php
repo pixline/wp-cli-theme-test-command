@@ -163,17 +163,18 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 				break;
 		endswitch;
 
+		$skip_activation = array( 'piglatin', 'wordpress-beta-tester' );
 		# do install
 		foreach ( $plugin_list as $plugin ) :
 			$res = WP_CLI::launch( 'wp plugin status '.$plugin, false );
 			
 			if ( isset( $res ) && $res === 1 ) {
 				# install plugin (maybe skip piglatin)
-				$cmdflag = ( 'piglatin' === $plugin ) ? '' : ' --activate';
+				$cmdflag = ( in_array( $plugin, $skip_activation ) ) ? '' : ' --activate';
 				WP_CLI::launch( 'wp plugin install ' . $plugin . $cmdflag );
 			} else {
 				# activate plugin (maybe skip piglatin)
-				if ( 'piglatin' !== $plugin )
+				if ( false === in_array( $plugin, $skip_activation ) )
 					WP_CLI::launch( 'wp plugin activate '.$plugin );
 			}
 		endforeach;
