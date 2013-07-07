@@ -23,6 +23,7 @@ Angle brackets groups possible values, default is marked with *
 	'wpcom-theme' = Alternative wpcom datafile (1)
 	'wpcom-demo' = Alternative wpcom datafile (2)
 	'wptest' = manovotny/wptest datafile
+	'skip' = Do not install new data
 
 [--plugin=< theme* | vip | devel | all | skip >]  
 
@@ -35,23 +36,30 @@ Angle brackets groups possible values, default is marked with *
 	'devel' = Default + plugin developer setup
 	'debug' = Default + debugger setup
 	'all' = Default + VIP + developer + debugger!
+	'skip' = Do not install/activate plugin bundles
 
 [--option=< default* | skip >]
+	
 
-	Updates blog options to the test default values:
-	- blogname
-	- posts_per_page
-	- thread_comments
-	- thread_comments_depth
-	- page_comments
-	- comments_per_page
-	- medium_max_w
-	- medium_max_h
-	- large_max_w
-	- large_max_h
-	- permalink_structure
+	Updates blog options to the test default values.
+
+	'skip' = Do not update options
+	'default' = Updates options to their default test value:
+
+		- blogname 								WordPress Theme Unit Test Site
+		- posts_per_page					5
+		- thread_comments					1
+		- thread_comments_depth		3
+		- page_comments						1
+		- comments_per_page				5
+		- medium_max_w						null
+		- medium_max_h						null
+		- large_max_w							null
+		- large_max_h							null
+		- permalink_structure			/%year%/%monthnum%/%day%/%postname%/
 
 [--menus]            Add custom nav menus
+
 ```
 
 Can be used to "sandbox" a *local* WordPress install programmatically, i.e. :
