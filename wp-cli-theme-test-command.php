@@ -71,11 +71,11 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 	 */
 	private function update_test_options(){
 		WP_CLI::launch( 'wp option update blogname "WordPress Theme Unit Test Site"' );
-		WP_CLI::launch( 'wp option update posts_per_page 5' );
+		WP_CLI::launch( 'wp option update posts_per_page 6' );
 		WP_CLI::launch( 'wp option update thread_comments 1' );
 		WP_CLI::launch( 'wp option update thread_comments_depth 3' );
 		WP_CLI::launch( 'wp option update page_comments 1' );
-		WP_CLI::launch( 'wp option update comments_per_page 5' );
+		WP_CLI::launch( 'wp option update comments_per_page 6' );
 		WP_CLI::launch( 'wp option update medium_max_w ""' );
 		WP_CLI::launch( 'wp option update medium_max_h ""' );
 		WP_CLI::launch( 'wp option update large_max_w ""' );
@@ -106,7 +106,6 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 			'theme-check',
 			'theme-test-drive',
 			'user-switching',
-			'wordpress-beta-tester',
 			'wordpress-importer',
 		);
 
@@ -149,14 +148,32 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 	 * @param array $assoc_args  Incoming args associative array
 	 * @since 0.2
 	 */
-	private function import_test_data( $alt_data = null ){
-		$std_data = 'https://wpcom-themes.svn.automattic.com/demo/theme-unit-test-data.xml';
-		$download_url = isset( $alt_data ) ? $alt_data : $std_data;
+	private function import_test_data( $option = 'unit-test' ){
+
+		$datafiles = array(
+			'unit-test' => 'https://wpcom-themes.svn.automattic.com/demo/theme-unit-test-data.xml',
+			'wpcom-theme' => 'https://wpcom-themes.svn.automattic.com/demo/wordpress-com-theme-test.xml',
+			'wpcom-demo' => 'https://wpcom-themes.svn.automattic.com/demo/demo-data.xml',
+			'wptest' => 'https://raw.github.com/manovotny/wptest/master/wptest.xml',
+		);
+
+		$keys = array_keys( $datafiles );
+
+		if ( 'skip' === $option )
+			return;
+
+		if ( in_array( $option, $keys ) ):
+			$download_url = $datafiles[$option];			
+		else :
+			$download_url = $option;
+		endif;
+
+		WP_CLI::line( 'WXR data URL: ' . $download_url );
 		$silent  = WP_CLI::get_config( 'quiet' ) ? '--silent ' : '';
-		$cmdline = "curl -f $silent $download_url -o /tmp/theme-unit-test-data.xml";
+		$cmdline = "curl -f $silent $download_url -o /tmp/wp-cli-test-data.xml";
 
 		WP_CLI::launch( $cmdline );
-		WP_CLI::launch( 'wp import /tmp/theme-unit-test-data.xml --authors=skip' );
+		WP_CLI::launch( 'wp import /tmp/wp-cli-test-data.xml --authors=skip' );
 	}
 
 
@@ -169,14 +186,14 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 	* --menus 								Create custom nav menus (full page list, short random page list)
 	* 
 	* @when after_wp_load
-	* @synopsis [--data=<data>] [--menus] [--vip]
+	* @synopsis [--data=<data>] [--plugin=<plugin>]  [--menus] 
 	* @since 0.2
 	* @todo check wp-config.php for debug constants
 	*/
 	public function install( $args = null, $assoc_args = array() ){
 
 		# plugin check, download and activation
-		$this->manage_plugins( $assoc_args['vip'] );
+		$this->manage_plugins( $assoc_args['plugin'] );
 
 		# download and import test data
 		$this->import_test_data( $assoc_args['data'] );
