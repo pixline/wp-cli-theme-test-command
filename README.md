@@ -87,10 +87,10 @@ Composer installation as referenced in [wp-cli Community Packages setup](https:/
 cd ~/.wp-cli
 ```
 
-2) Add the repository containing the desired package:
+2) Add the WP-CLI Package Index:
 
 ```bash
-composer config repositories.theme_test vcs https://github.com/pixline/wp-cli-theme-test-command
+composer config repositories.wp-cli composer http://wp-cli.org/package-index/
 ```
 
 3) Install the package:
