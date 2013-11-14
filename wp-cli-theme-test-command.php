@@ -142,23 +142,23 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 		);
 
 		switch ( $option ):
-			case 'vip':
+		case 'vip':
 				$plugin_list = array_merge( $std_plugin, $vip_plugin );
 				break;
 
-			case 'devel':
+		case 'devel':
 				$plugin_list = array_merge( $std_plugin, $dev_plugin );
 				break;
 
-			case 'debug':
+		case 'debug':
 				$plugin_list = array_merge( $std_plugin, $debug_plugin );
 				break;
 
-			case 'all':
+		case 'all':
 				$plugin_list = array_merge( $std_plugin, $vip_plugin, $dev_plugin, $debug_plugin );
 
-			case 'theme':
-			default:
+		case 'theme':
+		default:
 				$plugin_list = $std_plugin;
 				break;
 		endswitch;
