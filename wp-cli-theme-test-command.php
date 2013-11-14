@@ -222,9 +222,26 @@ class Theme_Test_Cmd extends WP_CLI_Command{
 	* 
 	* Usage: wp theme-test setup [options]
 	* 
-	* --data=<url|path>	URL/path to WXR data file 
-	* --menus	Create custom nav menus (full page list, short random page list)
+	* ## OPTIONS
+	*
+	* --data=<data>
+	* : URL/path to WXR data file 	[unit-test*|wpcom-theme|wpcom-demo|wptest|skip]
+	*
+	* --plugin=<plugin>
+	* : Install and activate suggested plugin bundle  [theme*|vip|devel|debug|all|skip]
+	*
+	* --option=<option>
+	* : Update blog options with optimal testing standards [NULL*|skip]
+	*
+	* --menus
+	* : Create custom nav menus (full page list, short random page list)
 	* 
+	* ## EXAMPLES
+	*
+	* wp theme-test install
+	* wp theme-test install --data=skip --option=skip --plugin=skip
+	* wp theme-test install --data=wpcom-theme --plugin=all
+	*
 	* @when after_wp_load
 	* @synopsis [--data=<data>] [--plugin=<plugin>] [--option=<option>] [--menus] 
 	* @since 0.2
