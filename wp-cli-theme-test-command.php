@@ -2,8 +2,8 @@
 /**
  * Install and run WordPress unit-tests
  *
- * @author pixline <pixline@gmail.com>
- * @version 0.4.2
+ * @author Paolo Tresso <plugins@swergroup.com>
+ * @version 0.5.0
  * @when after_wp_load
  * @synopsis <action>
  */

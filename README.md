@@ -6,9 +6,37 @@ Install and configure Theme "unit tests" (sample data, required plugins and opti
 
 http://codex.wordpress.org/Theme_Unit_Test
 
+
+## Installation
+
+### Default install: wp-cli + composer
+
+Composer installation as referenced in [wp-cli Community Packages setup](https://github.com/wp-cli/wp-cli/wiki/Community-Packages).
+
+0) Make sure to have [wp-cli](http://wp-cli.org#install) already installed.
+
+1) Go to the directory containing the root `composer.json` file:
+
+```bash
+cd ~/.wp-cli
+```
+
+2) Add the WP-CLI Package Index:
+
+```bash
+composer config repositories.wp-cli composer http://wp-cli.org/package-index/
+```
+
+3) Install the package:
+
+```bash
+composer require pixline/wp-cli-theme-test-command=dev-master
+```
+
+
 ## Usage
 
-NOTE: This command can't deal (yet?) with global flags like ```--path```, please run it in the WordPress root folder only.
+NOTE: This command can't deal (yet?) with global flags like ```--path```, please run it in the WordPress root folder.
 
 ```
 wp theme-test install [options]
@@ -60,55 +88,5 @@ Angle brackets groups possible values, default is marked with *
 
 [--menus]            Add custom nav menus
 
-```
-
-Can be used to "sandbox" a *local* WordPress install programmatically, i.e. :
-
-```bash
-#!/bin/bash
-
-wp db reset
-wp core install --url=http://localhost --title="WP" --admin_name=test --admin_email=test@example.org --admin_password=test
-wp theme-test install --data=unit-test --plugin=all --menus
-```
-
-
-## Installation
-
-### Default install: wp-cli + composer
-
-Composer installation as referenced in [wp-cli Community Packages setup](https://github.com/wp-cli/wp-cli/wiki/Community-Packages).
-
-0) Make sure to have [wp-cli](http://wp-cli.org#install) already installed.
-
-1) Go to the directory containing the root `composer.json` file:
-
-```bash
-cd ~/.wp-cli
-```
-
-2) Add the WP-CLI Package Index:
-
-```bash
-composer config repositories.wp-cli composer http://wp-cli.org/package-index/
-```
-
-3) Install the package:
-
-```bash
-composer require pixline/wp-cli-theme-test-command=dev-master
-```
-
-### Developer install: git + composer method
-
-```bash
-git clone https://github.com/pixline/wp-cli-theme-test-command
-cd wp-cli-theme-test-command
-composer install --dev --prefer-source
-
-## append this line to .bash_profile or .zshrc.local
-export PATH="/full/path/to/wp-cli-theme-test-command/vendor/bin:$PATH"
-
-wp theme-test install
 ```
 
