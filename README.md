@@ -33,6 +33,14 @@ composer config repositories.wp-cli composer http://wp-cli.org/package-index/
 composer require pixline/wp-cli-theme-test-command=dev-master
 ```
 
+### Alternate install: WP-CLI package install
+
+1) Navigate to the WordPress root folder.
+
+2) Install the package using a wp-cli command.
+```bash
+wp package install pixline/wp-cli-theme-test-command
+```
 
 ## Usage
 
