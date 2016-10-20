@@ -1,6 +1,6 @@
 {
   "name": "pixline/wp-cli-theme-test-command",
-  "type": "command",
+  "type": "wp-cli-package",
   "description": "Install and configure WordPress theme unit tests",
   "keywords": ["wp-cli","theme-test"],
   "homepage": "https://github.com/pixline/wp-cli-theme-test-command",
